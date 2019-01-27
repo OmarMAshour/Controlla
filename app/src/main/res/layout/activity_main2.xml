@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/img"
     tools:context=".Main2Activity">
 
 
@@ -16,6 +17,15 @@
         android:layout_above="@+id/navigation"
         >
 
+        <TextView
+            android:layout_width="405dp"
+            android:layout_height="200dp"
+            android:text="Welcome"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            android:textStyle="bold|italic" />
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView

@@ -20,6 +20,7 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        setTitle("Main Page");
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment frag1=new chatRoomFrag();

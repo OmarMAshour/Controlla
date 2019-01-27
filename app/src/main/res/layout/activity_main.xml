@@ -33,11 +33,11 @@
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:focusable="true"
-        android:hint="E-mail"
+        android:fontFamily="sans-serif"
+        android:hint="E-mail..."
         android:inputType="textEmailAddress"
         android:textColorHighlight="#ff7eff15"
-        android:textColorHint="@color/icon_orange_color"
-        android:textStyle="bold" />
+        android:textColorHint="@color/icon_orange_color" />
 
 
     <EditText
@@ -51,14 +51,13 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="2dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Password..."
         android:inputType="textPassword"
         android:textColorHint="@color/icon_orange_color"
-        android:textStyle="bold"
 
         />
 
@@ -70,7 +69,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="-39dp"
         android:layout_marginRight="-39dp"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="58dp"
         android:layout_toStartOf="@+id/textview"
         android:layout_toLeftOf="@+id/textview"
         android:background="@color/icon_orange_color"
@@ -106,13 +105,12 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_width="383dp"
+        android:layout_height="198dp"
         android:layout_alignStart="@+id/textview"
         android:layout_alignParentTop="true"
         android:layout_marginStart="-192dp"
         android:layout_marginTop="0dp"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:srcCompat="@drawable/img" />
+        app:srcCompat="@drawable/img" />
 
 </RelativeLayout>
