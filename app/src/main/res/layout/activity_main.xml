@@ -7,12 +7,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView android:text = "Welcome" android:layout_width="wrap_content"
-        android:layout_height = "wrap_content"
-        android:id = "@+id/textview"
-        android:textSize = "35dp"
-        android:layout_alignParentTop = "true"
-        android:layout_centerHorizontal = "true" />
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="35dp"
+        android:textStyle="bold" />
 
 
     <EditText
@@ -32,7 +36,8 @@
         android:hint="E-mail"
         android:inputType="textEmailAddress"
         android:textColorHighlight="#ff7eff15"
-        android:textColorHint="#ffff25e6" />
+        android:textColorHint="@color/icon_orange_color"
+        android:textStyle="bold" />
 
 
     <EditText
@@ -52,7 +57,10 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColorHint="#ffff299f" />
+        android:textColorHint="@color/icon_orange_color"
+        android:textStyle="bold"
+
+        />
 
 
     <Button
@@ -60,12 +68,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="-113dp"
-        android:layout_marginRight="-113dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="-39dp"
+        android:layout_marginRight="-39dp"
+        android:layout_marginBottom="38dp"
         android:layout_toStartOf="@+id/textview"
         android:layout_toLeftOf="@+id/textview"
-        android:text="login" />
+        android:background="@color/icon_orange_color"
+        android:backgroundTint="@color/icon_orange_color"
+        android:backgroundTintMode="screen"
+        android:text="login"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -73,17 +86,33 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/textview"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginBottom="131dp"
-        android:text="Keep Signed In" />
+        android:layout_marginStart="-184dp"
+        android:layout_marginBottom="117dp"
+        android:text="Keep me Signed In"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textview"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-185dp"
+        android:layout_marginBottom="145dp"
+        android:text="Show Password"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="163dp"
-        android:layout_height="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
         android:layout_alignStart="@+id/textview"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:layout_marginStart="-192dp"
+        android:layout_marginTop="0dp"
+        app:srcCompat="@mipmap/ic_launcher_round"
+        tools:srcCompat="@drawable/img" />
 
 </RelativeLayout>
