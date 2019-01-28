@@ -6,10 +6,8 @@
     android:orientation="vertical"
     tools:context=".DTCfrag">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/DTC_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/title_DTC" />
-
+        android:layout_height="match_parent" />
 </RelativeLayout>
