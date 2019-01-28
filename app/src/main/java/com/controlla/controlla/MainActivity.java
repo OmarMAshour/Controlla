@@ -84,7 +84,21 @@ public class MainActivity extends AppCompatActivity {
                         }
                         firebaseManager.addKeepSignedUser(email.getText().toString().trim(), serial);
                     }
-                    firebaseManager.currentSignedEmail = email.getText().toString().trim();
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_ENGINE_LOAD").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_COOLANT_TEMP").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_PRESSURE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_INTAKE_PRESSURE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_RPM").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_SPEED").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_TIMING_ADVANCE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_INTAKE_TEMP").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_MAF").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_THROTTLE_POS").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_LEVEL").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_TYPE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_OIL_TEMP").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_INJECT_TIMING").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_RATE").setValue("NA");
                     Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivity(myIntent);
                     MainActivity.this.finish();
