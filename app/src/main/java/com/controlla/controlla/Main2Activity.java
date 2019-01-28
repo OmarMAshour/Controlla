@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import static com.controlla.controlla.MainActivity.firebaseManager;
+
 public class Main2Activity extends AppCompatActivity {
     private TextView mTextMessage;
     private Intent intent;
@@ -25,6 +27,8 @@ public class Main2Activity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment frag1=new chatRoomFrag();
         final Fragment frag2=new statusFrag();
+        final Fragment frag3=new DTCfrag();
+        final Fragment frag4=new capturingFrag();
 
         mTextMessage = (TextView) findViewById(R.id.message);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -38,12 +42,19 @@ public class Main2Activity extends AppCompatActivity {
                 case R.id.navigation_status:
                     fragment=frag2;
                     break;
-                /*case R.id.navigation_notifications:
-//                    intent = new Intent(MainActivity.this, CarStatus.class);
-//                    startActivity(intent);
-//                    return true;
+                case R.id.navigation_DTC:
                     fragment=frag3;
-                    break;*/
+                    break;
+                case R.id.navigation_Img_capture:
+                    fragment=frag4;
+                    break;
+                case R.id.navigation_Logout:
+                    Intent intent = new Intent(Main2Activity.this, MainActivity.class);
+                    startActivity(intent);
+                    Main2Activity.this.finish();
+                    firebaseManager.currentSignedEmail="";
+                    firebaseManager.currentSignedUserName="";
+                    break;
             }
                 fragmentManager.beginTransaction().replace(R.id.framelayout, fragment).commit();
                 return true;

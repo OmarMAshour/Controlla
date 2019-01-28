@@ -19,8 +19,6 @@ import com.google.firebase.FirebaseApp;
 import Services.FirebaseManager;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Intent intent;
     private Button b1;
     private EditText email, ps;
     private CheckBox cb;
@@ -37,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
         cb = (CheckBox) findViewById(R.id.checkBox);
 
         AppUtils.requestNeededPermissions(MainActivity.this);
-
-//        FirebaseApp.initializeApp(this);
         firebaseManager = new FirebaseManager();
 
         String serial = Build.SERIAL;
@@ -109,7 +105,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    }
+}
 

@@ -88,6 +88,7 @@
         android:layout_marginStart="-184dp"
         android:layout_marginBottom="117dp"
         android:text="Keep me Signed In"
+        android:layout_below="@+id/password"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -102,6 +103,7 @@
         <!--android:text="Show Password"-->
         <!--android:textSize="14sp"-->
         <!--android:textStyle="bold" />-->
+
 
     <ImageView
         android:id="@+id/imageView2"
