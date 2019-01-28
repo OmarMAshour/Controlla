@@ -91,17 +91,17 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textview"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="-185dp"
-        android:layout_marginBottom="145dp"
-        android:text="Show Password"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+    <!--<CheckBox-->
+        <!--android:id="@+id/checkBox2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignStart="@+id/textview"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginStart="-185dp"-->
+        <!--android:layout_marginBottom="145dp"-->
+        <!--android:text="Show Password"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textStyle="bold" />-->
 
     <ImageView
         android:id="@+id/imageView2"
