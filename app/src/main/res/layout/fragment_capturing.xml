@@ -12,4 +12,19 @@
         android:layout_height="match_parent"
         android:text="@string/title_ImageCapturing" />
 
+    <TextureView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/texture"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/texture"
+        android:gravity="center"
+        android:id = "@+id/cambtn"
+        android:layout_centerHorizontal="true"
+        android:text="TAKE PICTURE"/>
+
 </FrameLayout>

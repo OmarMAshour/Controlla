@@ -49,11 +49,12 @@ public class Main2Activity extends AppCompatActivity {
                     fragment=frag4;
                     break;
                 case R.id.navigation_Logout:
+                    firebaseManager.currentSignedEmail="";
+                    firebaseManager.currentSignedUserName="";
                     Intent intent = new Intent(Main2Activity.this, MainActivity.class);
                     startActivity(intent);
                     Main2Activity.this.finish();
-                    firebaseManager.currentSignedEmail="";
-                    firebaseManager.currentSignedUserName="";
+
                     break;
             }
                 fragmentManager.beginTransaction().replace(R.id.framelayout, fragment).commit();

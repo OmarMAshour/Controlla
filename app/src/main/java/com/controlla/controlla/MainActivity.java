@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button b1;
     private EditText email, ps;
     private CheckBox cb;
-    public static FirebaseManager firebaseManager;
+    public static final FirebaseManager firebaseManager = new FirebaseManager();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         cb = (CheckBox) findViewById(R.id.checkBox);
 
         AppUtils.requestNeededPermissions(MainActivity.this);
-        firebaseManager = new FirebaseManager();
 
         String serial = Build.SERIAL;
         if (serial.equals("unknown")) {

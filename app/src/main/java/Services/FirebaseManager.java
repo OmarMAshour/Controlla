@@ -1,11 +1,8 @@
 package Services;
 
-import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 
 import com.controlla.controlla.AESCrypt;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +24,7 @@ public class FirebaseManager {
     public DatabaseReference databaseReference;// = firebaseDatabase.getReference();
 
     public DatabaseReference app_usersRef;// = databaseReference.child("APP_USERS");
-    public ArrayList<APP_USER> app_usersArrayList = new ArrayList<>();
+    public ArrayList<APP_USER> app_usersArrayList ;//= new ArrayList<>();
 
     public DatabaseReference keepSignedRef;
     public ArrayList<KEEP_SIGNED_USER> keep_signed_usersArrayList = new ArrayList<>();
@@ -36,6 +33,7 @@ public class FirebaseManager {
     public String currentSignedUserName="";
 
     public DatabaseReference L_ReadingsRef;// = databaseReference.child("L_READINGS");
+    public DatabaseReference L_DTCSRef;
 
     public String L_ENGINE_LOAD = "";
     public DatabaseReference L_ENGINE_LOADRef;
@@ -82,6 +80,7 @@ public class FirebaseManager {
     public String L_FUEL_RATE = "";
     public DatabaseReference L_FUEL_RATERef;
 
+    public ArrayList<String> L_DTCS_arraylist = new ArrayList<>();
     public FirebaseManager(){
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -134,6 +133,7 @@ public class FirebaseManager {
                     }
                 }
                 directUserLReadings(currentSignedUserName);
+                directUserLDTCs(currentSignedUserName);
                 return true;
             }
         }
@@ -159,6 +159,7 @@ public class FirebaseManager {
                     currentSignedEmail = email;
                     currentSignedUserName = user.getName();
                     directUserLReadings(currentSignedUserName);
+                    directUserLDTCs(currentSignedUserName);
                     return true;
                 }
             } catch (Exception e) {
@@ -166,6 +167,23 @@ public class FirebaseManager {
             }
         }
         return false;
+    }
+
+    public void directUserLDTCs(String username){
+        L_DTCSRef = databaseReference.child("L_DTCS").child(username);
+        L_DTCSRef.keepSynced(true);
+        L_DTCSRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<ArrayList<String>> type = new GenericTypeIndicator<ArrayList<String>>() {};
+                L_DTCS_arraylist = dataSnapshot.getValue(type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void directUserLReadings(String username){
