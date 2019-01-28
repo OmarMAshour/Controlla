@@ -3,16 +3,28 @@
     <item
         android:id="@+id/navigation_chat"
         android:icon="@drawable/sbubble"
-        android:title="Chat Room" />
+        android:title="Chat" />
 
     <item
         android:id="@+id/navigation_status"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="Car status" />
+        android:title="Status" />
 
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Notifications" />
+        android:id="@+id/navigation_DTC"
+        android:icon="@drawable/tools"
+        android:title="DTC" />
+
+    <item
+        android:id="@+id/navigation_Img_capture"
+        android:icon="@drawable/cam2"
+        android:title="Image"
+        />
+    <item
+        android:id="@+id/navigation_Logout"
+        android:icon="@drawable/exit"
+        android:title="Logout"
+        />
+
 
 </menu>

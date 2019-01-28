@@ -13,7 +13,7 @@
         android:layout_height="386dp"
         android:layout_above="@id/view"
         android:layout_alignParentTop="true"
-        android:background="#efd6c4" />
+         />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/button"
@@ -26,7 +26,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginBottom="2dp"
         android:clickable="true"
-        app:backgroundTint="@color/design_default_color_primary_dark"
+        app:backgroundTint="@color/common_google_signin_btn_text_dark_focused"
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
     <View
@@ -39,7 +39,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginBottom="-3dp"
-        android:background="#efd6c4" />
+        />
 
 
 </RelativeLayout>
