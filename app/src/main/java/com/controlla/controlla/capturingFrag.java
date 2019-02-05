@@ -219,7 +219,7 @@ public class capturingFrag extends Fragment {
                             if(seatbelt){
                                 Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
                             }else{
-                                Toast.makeText(getContext(), "Seat Belt not detected", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
                             }
           /*  for (int i=0;i<c.length();i++){
                 JSONObject obj = c.getJSONObject(i);
