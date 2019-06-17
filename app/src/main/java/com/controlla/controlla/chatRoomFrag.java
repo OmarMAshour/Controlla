@@ -34,6 +34,8 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
+import static com.controlla.controlla.MainActivity.firebaseManager;
+
 public class chatRoomFrag extends Fragment implements AIListener, View.OnClickListener {
 
     private List<Message> messages = new ArrayList<>();
@@ -45,8 +47,11 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     private static final int REQUEST_INTERNET=200;
     private RecyclerView recyclerView;
     private TextView mTextMessage;
+
     //    AIConfiguration config ;
     private ContextWrapper cw;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +71,8 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 
         validateOS();
 
-        final AIConfiguration config = new AIConfiguration("8aa3d40d997a4af18221c98de5bd2b90", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
-        //  final AIConfiguration config = new AIConfiguration("7c6cc24aa2174ae6b78162caca232905  ", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
+//        final AIConfiguration config = new AIConfiguration("8aa3d40d997a4af18221c98de5bd2b90", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
+          final AIConfiguration config = new AIConfiguration("7c6cc24aa2174ae6b78162caca232905  ", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
         aiService = AIService.getService(this.getActivity(), config);
 
         voiceBTN.setOnClickListener(this);
@@ -93,8 +98,8 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         return view;
     }
     public void onMessageClick(final int position) {
-        messages.remove(position);
-        adapter.notifyItemRemoved(position);
+//        messages.remove(position);
+//        adapter.notifyItemRemoved(position);
 
     }
     public void validateOS()
@@ -130,7 +135,70 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         t1.speak(respond, TextToSpeech.QUEUE_FLUSH, null);
         messages.add(new Message(respond,true));
         adapter.notifyItemInserted(messages.size() - 1);
-        recyclerView.smoothScrollToPosition(messages.size() - 1);
+        recyclerView.smoothScrollToPosition(messages.size() -1);
+
+        if(respond.contains("Getting you")){
+            String value = getCorrespondingOBDValue(respond);
+            t1.speak(value, TextToSpeech.QUEUE_FLUSH, null);
+            messages.add(new Message(value,true));
+            adapter.notifyItemInserted(messages.size() - 1);
+            recyclerView.smoothScrollToPosition(messages.size() -1);
+        }
+
+    }
+
+    public String getCorrespondingOBDValue(String line){
+        String value="";
+        if(line.contains("Engine load")){
+            return firebaseManager.L_ENGINE_LOAD;
+        }
+        if(line.contains("Coolant Temperature")){
+            return firebaseManager.L_COOLANT_TEMP;
+        }
+        if(line.contains("Fuel Pressure")){
+            return firebaseManager.L_FUEL_PRESSURE;
+        }if(line.contains("Intake Pressure")){
+            return firebaseManager.L_INTAKE_PRESSURE;
+        }if(line.contains("Round Per Minute")){
+            return firebaseManager.L_RPM;
+        }
+        if(line.contains("Speed")){
+            return firebaseManager.L_SPEED;
+        }
+        if(line.contains("Timing Advance")){
+            return firebaseManager.L_TIMING_ADVANCE;
+        }if(line.contains("Intake Temperature")){
+            return firebaseManager.L_INTAKE_TEMP;
+        }if(line.contains("Airflow Rate")){
+            return firebaseManager.L_MAF;
+        }if(line.contains("MAF")){
+            return firebaseManager.L_MAF;
+        }
+        if(line.contains("Throttle Position")){
+            return firebaseManager.L_THROTTLE_POS;
+        }
+        if(line.contains("Fuel Level")){
+            return firebaseManager.L_FUEL_LEVEL;
+        }
+        if(line.contains("Fuel Type")){
+            return firebaseManager.L_FUEL_TYPE;
+        }
+        if(line.contains("Oil Temperature")){
+            return firebaseManager.L_OIL_TEMP;
+        }
+        if(line.contains("Fuel Inject Timing")){
+            return firebaseManager.L_FUEL_INJECT_TIMING;
+        }
+        if(line.contains("Fuel Rate")){
+            return firebaseManager.L_FUEL_RATE;
+        }
+        if(line.contains("Intake Temperature.")){
+            return firebaseManager.L_INTAKE_TEMP;
+        }
+        if(line.contains("Round Per Minute.")){
+            return firebaseManager.L_RPM;
+        }
+        return value;
     }
 
     @Override
