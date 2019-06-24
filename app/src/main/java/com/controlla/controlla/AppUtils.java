@@ -18,6 +18,13 @@ public class AppUtils {
         if(ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             arrPerm.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
+
+        if(ActivityCompat.checkSelfPermission(activity, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+            arrPerm.add(Manifest.permission.BLUETOOTH);
+        }
+
+
+
         if(!arrPerm.isEmpty()) {
             String[] permissions = new String[arrPerm.size()];
             permissions = arrPerm.toArray(permissions);

@@ -1,5 +1,8 @@
 package com.controlla.controlla;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +12,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.UUID;
+
 
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
@@ -29,6 +37,8 @@ public class Main2Activity extends AppCompatActivity {
         final Fragment frag2=new statusFrag();
         final Fragment frag3=new DTCfrag();
         final Fragment frag4=new capturingFrag();
+
+        fragment = frag1;
 
         mTextMessage = (TextView) findViewById(R.id.message);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);

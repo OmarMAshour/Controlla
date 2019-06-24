@@ -81,6 +81,10 @@ public class FirebaseManager {
     public DatabaseReference L_FUEL_RATERef;
 
     public ArrayList<String> L_DTCS_arraylist = new ArrayList<>();
+
+
+    public DatabaseReference SETTINGSRef;
+    public String SOS_Email = "";
     public FirebaseManager(){
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -89,6 +93,8 @@ public class FirebaseManager {
 
         databaseReference = firebaseDatabase.getReference();
         databaseReference.keepSynced(true);
+
+
 
         app_usersRef = databaseReference.child("APP_USERS");
         app_usersRef.keepSynced(true);
@@ -160,6 +166,20 @@ public class FirebaseManager {
                     currentSignedUserName = user.getName();
                     directUserLReadings(currentSignedUserName);
                     directUserLDTCs(currentSignedUserName);
+                    SETTINGSRef = databaseReference.child("SETTINGS").child(currentSignedUserName);
+                    SETTINGSRef.keepSynced(true);
+                    SETTINGSRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            SOS_Email = dataSnapshot.getValue(String.class);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                     return true;
                 }
             } catch (Exception e) {
@@ -167,6 +187,10 @@ public class FirebaseManager {
             }
         }
         return false;
+    }
+
+    public String getSOS_Email() {
+        return SOS_Email;
     }
 
     public void directUserLDTCs(String username){

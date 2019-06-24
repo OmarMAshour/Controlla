@@ -35,5 +35,8 @@ dependencies {
     implementation 'ai.api:libai:1.6.12'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.ibm.watson.developer_cloud:java-sdk:6.9.0'
+//    implementation 'com.github.eltonvs:java-obd-api:0.0.1'
+    implementation 'com.github.pires:obd-java-api:1.0'
+
 
 }
