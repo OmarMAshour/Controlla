@@ -84,6 +84,8 @@ public class FirebaseManager {
 
 
     public DatabaseReference SETTINGSRef;
+
+    public DatabaseReference SOS_EMAILRef;
     public String SOS_Email = "";
     public FirebaseManager(){
 
@@ -166,19 +168,7 @@ public class FirebaseManager {
                     currentSignedUserName = user.getName();
                     directUserLReadings(currentSignedUserName);
                     directUserLDTCs(currentSignedUserName);
-                    SETTINGSRef = databaseReference.child("SETTINGS").child(currentSignedUserName);
-                    SETTINGSRef.keepSynced(true);
-                    SETTINGSRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            SOS_Email = dataSnapshot.getValue(String.class);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                    setUserSettings(currentSignedUserName);
 
                     return true;
                 }
@@ -187,6 +177,25 @@ public class FirebaseManager {
             }
         }
         return false;
+    }
+
+    public void setUserSettings(String username){
+        SETTINGSRef = databaseReference.child("SETTINGS").child(username);
+        SETTINGSRef.keepSynced(true);
+
+        SOS_EMAILRef = SETTINGSRef.child("SOS_EMAIL");
+        SOS_EMAILRef.keepSynced(true);
+        SOS_EMAILRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                SOS_Email = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public String getSOS_Email() {

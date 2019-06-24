@@ -67,6 +67,7 @@ public class Main2Activity extends AppCompatActivity {
 
                     break;
             }
+
                 fragmentManager.beginTransaction() .replace(R.id.framelayout, fragment).commit();
                 return true;
             }
