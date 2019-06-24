@@ -1,5 +1,6 @@
 package Services;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -32,6 +33,9 @@ public class BackgroundOBDCheck extends Service {
                 .setContentTitle("HELP")
                 .setContentText("They stole my money")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(001, builder.build());
 
     }
     public int onStartCommand(Intent intent, int flags, int startId) {
