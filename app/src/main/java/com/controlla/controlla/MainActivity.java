@@ -84,67 +84,47 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View arg0) {
 
-                // Create the NotificationChannel, but only on API 26+ because
-                // the NotificationChannel class is new and not in the support library
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    CharSequence name = "ControllaChannel";//getString(R.string.channel_name);
-                    String description = "Notification Channel for Controlla App";//getString(R.string.channel_description);
-                    int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                    NotificationChannel channel = new NotificationChannel("0001", name, importance);
-                    channel.setDescription(description);
-                    // Register the channel with the system; you can't change the importance
-                    // or other notification behaviors after this
-                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                    notificationManager.createNotificationChannel(channel);
-                }
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "0001")
-                        .setSmallIcon(R.drawable.img)
-                        .setContentTitle("HELP")
-                        .setContentText("They stole my money")
-                        .setPriority(NotificationCompat.PRIORITY_MAX);
 
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(MainActivity.this.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(001, builder.build());
                 // Start NewActivity.class
-//                if (firebaseManager.authUser(email.getText().toString().trim(), ps.getText().toString())) {
-//                    if (cb.isChecked()) {
-//                        String serial = Build.SERIAL;
-//                        if (serial.equals("unknown")) {
-//                            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-//                                // TODO: @ASHOUR don't forget to request permission ... Consider calling
-//                                //    ActivityCompat#requestPermissions
-//                                // here to request the missing permissions, and then overriding
-//                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                                //                                          int[] grantResults)
-//                                // to handle the case where the user grants the permission. See the documentation
-//                                // for ActivityCompat#requestPermissions for more details.
-//                                return;
-//                            }
-//                            serial = Build.getSerial();
-//                        }
-//                        firebaseManager.addKeepSignedUser(email.getText().toString().trim(), serial);
-//                    }
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_ENGINE_LOAD").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_COOLANT_TEMP").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_PRESSURE").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_INTAKE_PRESSURE").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_RPM").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_SPEED").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_TIMING_ADVANCE").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_INTAKE_TEMP").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_MAF").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_THROTTLE_POS").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_LEVEL").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_TYPE").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_OIL_TEMP").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_INJECT_TIMING").setValue("NA");
-//                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_RATE").setValue("NA");
-//                    Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
-//                    startActivity(myIntent);
-//                    MainActivity.this.finish();
-//                }else{
-//                    Toast.makeText(MainActivity.this, "Wrong email or password", Toast.LENGTH_LONG).show();
-//                }
+                if (firebaseManager.authUser(email.getText().toString().trim(), ps.getText().toString())) {
+                    if (cb.isChecked()) {
+                        String serial = Build.SERIAL;
+                        if (serial.equals("unknown")) {
+                            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: @ASHOUR don't forget to request permission ... Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            serial = Build.getSerial();
+                        }
+                        firebaseManager.addKeepSignedUser(email.getText().toString().trim(), serial);
+                    }
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_ENGINE_LOAD").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_COOLANT_TEMP").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_PRESSURE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_INTAKE_PRESSURE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_RPM").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_SPEED").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_TIMING_ADVANCE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_INTAKE_TEMP").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_MAF").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_THROTTLE_POS").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_LEVEL").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_TYPE").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_OIL_TEMP").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_INJECT_TIMING").setValue("NA");
+                    firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_RATE").setValue("NA");
+                    Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
+                    startActivity(myIntent);
+                    MainActivity.this.finish();
+                }else{
+                    Toast.makeText(MainActivity.this, "Wrong email or password", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
