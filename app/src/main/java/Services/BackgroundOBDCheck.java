@@ -14,7 +14,7 @@ import com.controlla.controlla.R;
 
 public class BackgroundOBDCheck extends Service {
     private static final String TAG = null;
-    MediaPlayer player;
+//    MediaPlayer player;
     Thread backgroundThread;
     @Nullable
     @Override
@@ -30,15 +30,11 @@ public class BackgroundOBDCheck extends Service {
 //        player.setLooping(true); // Set looping
 //        player.setVolume(100,100);
 
-
-    }
-
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        player.start();
-
         backgroundThread = new Thread() {
             public void run() {
 
+                AppUtils.sendNotification(BackgroundOBDCheck.this, "Coolant Temperature Problem",
+                        "Your coolant temperature is 150 degree celsius which is not with in the normal boundaries ... go and check it ASAP!");
                 while(true){
                     String L_COOLANT_TEMP = firebaseManager.L_COOLANT_TEMP;
                     String L_ENGINE_LOAD = firebaseManager.L_ENGINE_LOAD;
@@ -150,11 +146,25 @@ public class BackgroundOBDCheck extends Service {
                     }
 
                     if(!L_RPM.equals("NA")){
+                        String[] values = L_RPM.split(" ");
 
+                        double value = Double.parseDouble(values[0]);
+
+                        if (value>6000){
+                            AppUtils.sendNotification(BackgroundOBDCheck.this, "RPM High",
+                                    "Kindly notice that your RPM is high");
+                        }
                     }
 
                     if(!L_SPEED.equals("NA")){
+                        String[] values = L_SPEED.split(" ");
 
+                        double value = Double.parseDouble(values[0]);
+
+                        if (value>100){
+                            AppUtils.sendNotification(BackgroundOBDCheck.this, "Speed Over Normal",
+                                    "Your are moving on speed greater than 100 kph which may not be permitted in your region");
+                        }
                     }
 
                     if(!L_THROTTLE_POS.equals("NA")){
@@ -164,20 +174,17 @@ public class BackgroundOBDCheck extends Service {
                     if(!L_TIMING_ADVANCE.equals("NA")){
 
                     }
-
-
-
-
-
-
-
-
-
                 }
 
 
             }
         };
+
+    }
+
+    public int onStartCommand(Intent intent, int flags, int startId) {
+//        player.start();
+
 
         backgroundThread.start();
 
@@ -192,17 +199,21 @@ public class BackgroundOBDCheck extends Service {
     }
 
     public void onStop() {
-        player.stop();
-        player.release();
+//        player.stop();
+//        player.release();
+        backgroundThread.interrupt();
     }
     public void onPause() {
-
+        backgroundThread.interrupt();
     }
     @Override
     public void onDestroy() {
-        player.stop();
-        player.release();
+//        player.stop();
+//        player.release();
+        backgroundThread.interrupt();
     }
+
+
 
     @Override
     public void onLowMemory() {

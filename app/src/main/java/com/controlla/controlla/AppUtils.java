@@ -36,27 +36,30 @@ public class AppUtils {
         }
     }
 
+    static String notificationChannelID = "0";
+
     public static void sendNotification(Context context, String Error, String Message){
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
+        notificationChannelID = String.valueOf(Integer.parseInt(notificationChannelID)+1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "ControllaChannel";//getString(R.string.channel_name);
             String description = "Notification Channel for Controlla App";//getString(R.string.channel_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("0001", name, importance);
+            NotificationChannel channel = new NotificationChannel(notificationChannelID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "0001")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, notificationChannelID)
                 .setSmallIcon(R.drawable.img)
                 .setContentTitle(Error)
                 .setContentText(Message)
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(001, builder.build());
+        mNotificationManager.notify(Integer.valueOf(notificationChannelID), builder.build());
     }
 }
