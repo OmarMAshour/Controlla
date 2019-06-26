@@ -19,7 +19,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,9 +27,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-
-import javax.mail.NoSuchProviderException;
 
 import Services.FirebaseManager;
 import Services.SendEmail;
@@ -40,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private Button b1;
     private EditText email, ps;
     private CheckBox cb;
-    private FusedLocationProviderClient fusedLocationClient;
     public static final FirebaseManager firebaseManager = new FirebaseManager();
     SendEmail sendEmail;
 
