@@ -22,7 +22,7 @@ public class Main2Activity extends AppCompatActivity {
     private BottomNavigationView navigation;
     private Fragment fragment;
     private Timer BackgroundOBDCheckTimer;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
