@@ -18,14 +18,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.mail.NoSuchProviderException;
 
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
@@ -56,6 +53,10 @@ public class AppUtils {
         }
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             arrPerm.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            arrPerm.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
 
 
