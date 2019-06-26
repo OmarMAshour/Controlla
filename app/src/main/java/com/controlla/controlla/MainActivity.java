@@ -1,49 +1,40 @@
 package com.controlla.controlla;
 
 import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.github.pires.obd.commands.SpeedCommand;
-import com.github.pires.obd.commands.protocol.EchoOffCommand;
-import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
-import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
-import com.github.pires.obd.commands.protocol.TimeoutCommand;
-import com.github.pires.obd.enums.ObdProtocols;
-import com.github.pires.obd.commands.engine.RPMCommand;
-import com.google.firebase.FirebaseApp;
+import com.google.android.gms.location.FusedLocationProviderClient;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
+import javax.mail.NoSuchProviderException;
 
 import Services.FirebaseManager;
-
-
+import Services.SendEmail;
 
 
 public class MainActivity extends AppCompatActivity {
     private Button b1;
     private EditText email, ps;
     private CheckBox cb;
+    private FusedLocationProviderClient fusedLocationClient;
     public static final FirebaseManager firebaseManager = new FirebaseManager();
+    SendEmail sendEmail;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -55,7 +46,15 @@ public class MainActivity extends AppCompatActivity {
         ps = (EditText) findViewById(R.id.password);
         cb = (CheckBox) findViewById(R.id.checkBox);
 
+
+      /*  try {
+      /*  try
+          //  firebaseManager.getSOS_Email();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        }*/
         AppUtils.requestNeededPermissions(MainActivity.this);
+
 
         String serial = Build.SERIAL;
         if (serial.equals("unknown")) {
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
             serial = Build.getSerial();
         }
-        if(firebaseManager.isKeepSignedUser(serial)){
+        if (firebaseManager.isKeepSignedUser(serial)) {
             Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
             startActivity(myIntent);
             MainActivity.this.finish();
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View arg0) {
-
                 // Start NewActivity.class
                 if (firebaseManager.authUser(email.getText().toString().trim(), ps.getText().toString())) {
                     if (cb.isChecked()) {
@@ -118,12 +116,18 @@ public class MainActivity extends AppCompatActivity {
                     Intent myIntent = new Intent(MainActivity.this, Main2Activity.class);
                     startActivity(myIntent);
                     MainActivity.this.finish();
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "Wrong email or password", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
     }
-}
+
+
+        // Here, thisActivity is the current activity
+
+
+    }
+
 
