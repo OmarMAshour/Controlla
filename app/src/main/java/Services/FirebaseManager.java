@@ -1,8 +1,11 @@
 package Services;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 
 import com.controlla.controlla.AESCrypt;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,11 +15,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+
 import Data.APP_USER;
 import Data.KEEP_SIGNED_USER;
 
 public class FirebaseManager {
 
+    Session session = null;
+    private Context context ;
+
+    private FusedLocationProviderClient fusedLocationClient;
 
 
     public FirebaseDatabase firebaseDatabase;// = FirebaseDatabase.getInstance();
@@ -43,7 +53,6 @@ public class FirebaseManager {
 
     public String L_FUEL_PRESSURE = "";
     public DatabaseReference L_FUEL_PRESSURERef;
-
     public String L_INTAKE_PRESSURE = "";
     public DatabaseReference L_INTAKE_PRESSURERef;
 
@@ -87,6 +96,8 @@ public class FirebaseManager {
 
     public DatabaseReference SOS_EMAILRef;
     public String SOS_Email = "";
+    private static final  int MY_PERMISSIONS_REQUEST_ACCES_COARSE_LOCATION = 1;
+
 
     public DatabaseReference Reset_DTCRef;
     public String Reset_DTC = "";
@@ -96,7 +107,6 @@ public class FirebaseManager {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseDatabase.setPersistenceEnabled(true);
-
 
         databaseReference = firebaseDatabase.getReference();
         databaseReference.keepSynced(true);
@@ -127,7 +137,6 @@ public class FirebaseManager {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
@@ -222,7 +231,12 @@ public class FirebaseManager {
         });
     }
 
-    public String getSOS_Email() {
+    public String getSOS_Email() throws NoSuchProviderException {
+
+
+
+
+
         return SOS_Email;
     }
 
@@ -471,4 +485,17 @@ public class FirebaseManager {
             }
         });
     }
+
+
+  public void onRequestPermissionResult (int RequestCode , String [] permissions, int []grantResults){
+           if(RequestCode == MY_PERMISSIONS_REQUEST_ACCES_COARSE_LOCATION){
+               if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+               }
+               else{
+
+               }
+           }
+  }
+
 }
