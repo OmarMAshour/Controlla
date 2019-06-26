@@ -22,6 +22,7 @@ public class Main2Activity extends AppCompatActivity {
     private BottomNavigationView navigation;
     private Fragment fragment;
     private Timer BackgroundOBDCheckTimer;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,8 @@ public class Main2Activity extends AppCompatActivity {
 //        new Thread() {
 //            public void run() {
 //
-                AppUtils.sendNotification(Main2Activity.this, "Coolant Temperature Problem",
-                        "Your coolant temperature is 150 degree celsius which is not with in the normal boundaries ... go and check it ASAP!");
+//                AppUtils.sendNotification(Main2Activity.this, "Coolant Temperature Problem",
+//                        "Your coolant temperature is 150 degree celsius which is not with in the normal boundaries ... go and check it ASAP!");
 //                while(true){
                     String L_COOLANT_TEMP = firebaseManager.L_COOLANT_TEMP;
                     String L_ENGINE_LOAD = firebaseManager.L_ENGINE_LOAD;
