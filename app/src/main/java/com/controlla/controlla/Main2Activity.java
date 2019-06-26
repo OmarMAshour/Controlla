@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
 public class Main2Activity extends AppCompatActivity {
@@ -18,6 +21,7 @@ public class Main2Activity extends AppCompatActivity {
     private Intent intent;
     private BottomNavigationView navigation;
     private Fragment fragment;
+    private Timer BackgroundOBDCheckTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +74,26 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-        BackgroundOBDCheck();
+        BackgroundOBDCheckTimer = new Timer();
+
+        BackgroundOBDCheckTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                BackgroundOBDCheck();
+            }
+        }, 0, 1000);
 
 
     }
 
     private void BackgroundOBDCheck(){
 
-        new Thread() {
-            public void run() {
+//        new Thread() {
+//            public void run() {
 //
-//                AppUtils.sendNotification(Main2Activity.this, "Coolant Temperature Problem",
-//                        "Your coolant temperature is 150 degree celsius which is not with in the normal boundaries ... go and check it ASAP!");
-                while(true){
+                AppUtils.sendNotification(Main2Activity.this, "Coolant Temperature Problem",
+                        "Your coolant temperature is 150 degree celsius which is not with in the normal boundaries ... go and check it ASAP!");
+//                while(true){
                     String L_COOLANT_TEMP = firebaseManager.L_COOLANT_TEMP;
                     String L_ENGINE_LOAD = firebaseManager.L_ENGINE_LOAD;
                     String L_FUEL_INJECT_TIMING = firebaseManager.L_FUEL_INJECT_TIMING;
@@ -225,8 +236,8 @@ public class Main2Activity extends AppCompatActivity {
                 }
 
 
-            }
-        }.start();
+//            }
+//        }.start();
     }
 
 
@@ -240,4 +251,4 @@ public class Main2Activity extends AppCompatActivity {
 //        Intent backgroundCheckService = new Intent(Main2Activity.this, BackgroundOBDCheck.class);
 //        stopService(backgroundCheckService);
 //    }
-}
+
