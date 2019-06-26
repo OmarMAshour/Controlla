@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Services.GPSTracker;
 import ai.api.AIListener;
@@ -51,6 +53,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     private static final int REQUEST_INTERNET = 200;
     private RecyclerView recyclerView;
     private TextView mTextMessage;
+    private Timer ResetDTCTimer;
 
     //    AIConfiguration config ;
     private ContextWrapper cw;
@@ -99,9 +102,29 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MessageAdapter(messages, this);
         recyclerView.setAdapter(adapter);
+
+        ResetDTCTimer = new Timer();
+        ResetDTCTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                resetDTCDone();
+            }
+        }, 0, 1000);
+
         return view;
     }
 
+
+    private void resetDTCDone(){
+        if(firebaseManager.Reset_DTC.equals("DONE")){
+            t1.speak("Reseting fault code has been done successfully", TextToSpeech.QUEUE_FLUSH, null);
+            messages.add(new Message("Reseting fault code has been done successfully",true));
+            adapter.notifyItemInserted(messages.size() - 1);
+            recyclerView.smoothScrollToPosition(messages.size() -1);
+            firebaseManager.Reset_DTC = " ";
+            firebaseManager.Reset_DTCRef.setValue(firebaseManager.Reset_DTC);
+        }
+    }
     public void onMessageClick(final int position) {
 //        messages.remove(position);
 //        adapter.notifyItemRemoved(position);
@@ -156,6 +179,12 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
            // onGPS();
             GPSTracker gps = new GPSTracker(getContext());
              AppUtils.sendSOSEmail(gps.getLocation(getContext()));
+        }
+
+
+        if(respond.contains("Sending reset")){
+            firebaseManager.Reset_DTC = "RESET";
+            firebaseManager.Reset_DTCRef.setValue(firebaseManager.Reset_DTC);
         }
 
     }

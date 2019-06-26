@@ -98,6 +98,11 @@ public class FirebaseManager {
     public String SOS_Email = "";
     private static final  int MY_PERMISSIONS_REQUEST_ACCES_COARSE_LOCATION = 1;
 
+
+    public DatabaseReference Reset_DTCRef;
+    public String Reset_DTC = "";
+
+
     public FirebaseManager(){
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -178,6 +183,7 @@ public class FirebaseManager {
                     directUserLReadings(currentSignedUserName);
                     directUserLDTCs(currentSignedUserName);
                     setUserSettings(currentSignedUserName);
+                    setUserResetDTC(currentSignedUserName);
 
                     return true;
                 }
@@ -186,6 +192,24 @@ public class FirebaseManager {
             }
         }
         return false;
+    }
+
+    public void setUserResetDTC(String username){
+        Reset_DTCRef = databaseReference.child("RESET_DTC").child(username);
+        Reset_DTCRef.keepSynced(true);
+
+
+        Reset_DTCRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Reset_DTC = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void setUserSettings(String username){
