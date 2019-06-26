@@ -72,7 +72,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         validateOS();
 
 //        final AIConfiguration config = new AIConfiguration("8aa3d40d997a4af18221c98de5bd2b90", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
-          final AIConfiguration config = new AIConfiguration("7c6cc24aa2174ae6b78162caca232905  ", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
+        final AIConfiguration config = new AIConfiguration("7c6cc24aa2174ae6b78162caca232905  ", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
         aiService = AIService.getService(this.getActivity(), config);
 
         voiceBTN.setOnClickListener(this);

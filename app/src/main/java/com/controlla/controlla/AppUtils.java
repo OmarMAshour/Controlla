@@ -7,10 +7,13 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AppUtils {
 
@@ -39,6 +42,7 @@ public class AppUtils {
     static String notificationChannelID = "0";
 
     public static void sendNotification(Context context, String Error, String Message){
+
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         notificationChannelID = String.valueOf(Integer.parseInt(notificationChannelID)+1);
@@ -61,5 +65,7 @@ public class AppUtils {
 
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(Integer.valueOf(notificationChannelID), builder.build());
+
+//        textToSpeech.speak(Message, TextToSpeech.QUEUE_FLUSH, null);
     }
 }
