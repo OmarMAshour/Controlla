@@ -31,8 +31,7 @@ import Services.SendEmail;
 public class AppUtils {
 
     public static void sendSOSEmail(ArrayList<String> L_Strings) {
-
-            SendEmail sendEmail = new SendEmail("mohdosama96@yahoo.com");
+            SendEmail sendEmail = new SendEmail(firebaseManager.getSOS_Email());
             sendEmail.DoConfiguration(L_Strings.get(0), L_Strings.get(1));
 
     }

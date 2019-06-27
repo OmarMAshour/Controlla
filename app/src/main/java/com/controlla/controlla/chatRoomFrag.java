@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -159,11 +160,42 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                 "\nResult:  "+ result.getFulfillment().getSpeech());*/
 
         //JUST A COMMENT
-        String respond = result.getFulfillment().getSpeech() + ".";
-        t1.speak(respond, TextToSpeech.QUEUE_FLUSH, null);
-        messages.add(new Message(respond, true));
-        adapter.notifyItemInserted(messages.size() - 1);
-        recyclerView.smoothScrollToPosition(messages.size() - 1);
+        String respond = result.getFulfillment().getSpeech(); //+ " .";
+        if(!respond.contains("Searching")){
+            t1.speak(respond, TextToSpeech.QUEUE_FLUSH, null);
+            messages.add(new Message(respond, true));
+            adapter.notifyItemInserted(messages.size() - 1);
+            recyclerView.smoothScrollToPosition(messages.size() - 1);
+        }else{
+            String searchWord="";
+            if(respond.contains("Searching for")){
+                String preMsg = messages.get(messages.size()-1).getMessage();
+                String[] words = preMsg.split(" ");
+                ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(words));
+                ArrayList<String> searchWordsList = new ArrayList<>();
+                searchWordsList.addAll(arrayList.subList(2, arrayList.size()));
+                for(String str: searchWordsList){
+                    searchWord+=str+" ";
+                }
+            }else if(respond.contains("Searching")){
+                String preMsg = messages.get(messages.size()-1).getMessage();
+                String[] words = preMsg.split(" ");
+                ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(words));
+                ArrayList<String> searchWordsList = new ArrayList<>();
+                searchWordsList.addAll(arrayList.subList(1, arrayList.size()));
+                for(String str: searchWordsList){
+                    searchWord+=str+" ";
+                }
+            }
+
+
+            String searchResult="";
+            t1.speak(searchResult, TextToSpeech.QUEUE_FLUSH, null);
+            messages.add(new Message(searchResult, true));
+            adapter.notifyItemInserted(messages.size() - 1);
+            recyclerView.smoothScrollToPosition(messages.size() - 1);
+        }
+
 
         if (respond.contains("Getting you")) {
             String value = getCorrespondingOBDValue(respond);
@@ -180,6 +212,8 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             GPSTracker gps = new GPSTracker(getContext());
              AppUtils.sendSOSEmail(gps.getLocation(getContext()));
         }
+
+
 
 
         if(respond.contains("Sending reset")){

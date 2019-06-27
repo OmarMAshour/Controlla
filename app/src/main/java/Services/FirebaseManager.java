@@ -231,7 +231,7 @@ public class FirebaseManager {
         });
     }
 
-    public String getSOS_Email() throws NoSuchProviderException {
+    public String getSOS_Email() {
 
 
 
