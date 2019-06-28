@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Data.Weather;
+
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
 public class Main2Activity extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class Main2Activity extends AppCompatActivity {
     private Fragment fragment;
     private Timer BackgroundOBDCheckTimer;
 
+//    public static Weather currentWeather = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,14 +244,4 @@ public class Main2Activity extends AppCompatActivity {
     }
 
 
-
-//    public void startServices(){
-//        Intent backgroundCheckService = new Intent(Main2Activity.this, BackgroundOBDCheck.class);
-//        startService(backgroundCheckService);
-//    }
-//
-//    public void stopServices(){
-//        Intent backgroundCheckService = new Intent(Main2Activity.this, BackgroundOBDCheck.class);
-//        stopService(backgroundCheckService);
-//    }
 

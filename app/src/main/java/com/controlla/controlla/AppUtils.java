@@ -11,14 +11,23 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.preference.PreferenceActivity;
 import android.provider.Settings;
 import android.os.Build;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import cz.msebera.android.httpclient.Header;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -26,9 +35,19 @@ import java.util.Locale;
 
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
+import Data.Weather;
+import Services.GPSTracker;
 import Services.SendEmail;
 
 public class AppUtils {
+    final static int REQUEST_CODE = 1234;
+    final static String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
+
+    final static String API_KEY = "d5d4cb412c8828b9bed71c004f7884d5";
+
+    final static long MIN_TIME = 5000;
+
+    final static float MIN_DISTANCE = 1000;
 
     public static void sendSOSEmail(ArrayList<String> L_Strings) {
             SendEmail sendEmail = new SendEmail(firebaseManager.getSOS_Email());
@@ -96,4 +115,57 @@ public class AppUtils {
 
 //        textToSpeech.speak(Message, TextToSpeech.QUEUE_FLUSH, null);
     }
+
+    public static void getCurrentLocationWeather(Context context) {
+
+
+
+        GPSTracker gpsTracker = new GPSTracker(context);
+
+        RequestParams requestParams = new RequestParams();
+
+        requestParams.put("lat", gpsTracker.getLocation(context).get(0));
+        requestParams.put("lon", gpsTracker.getLocation(context).get(1));
+        requestParams.put("appid", API_KEY);
+
+       apiCall(requestParams, context);
+
+
+
+
+    }
+
+
+
+    private static void apiCall(RequestParams requestParams, final Context context) {
+
+            AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+
+            asyncHttpClient.get(WEATHER_URL, requestParams, new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+
+                    try {
+                        Weather weather = Weather.fromJson(response);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+//                    updateWeatherDetails(weather);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+
+                    Toast.makeText(context, "Error occurred while making request!", Toast.LENGTH_LONG).show();
+                }
+            });
+
+    }
+
+
+
 }
