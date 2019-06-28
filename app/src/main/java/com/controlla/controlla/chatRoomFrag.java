@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Data.Weather;
 import Services.GPSTracker;
 import ai.api.AIListener;
 import ai.api.android.AIConfiguration;
@@ -41,6 +42,7 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
+import static com.controlla.controlla.MainActivity.currentWeather;
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
 public class chatRoomFrag extends Fragment implements AIListener, View.OnClickListener {
@@ -188,7 +190,6 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                 }
             }
 
-
             String searchResult="";
             t1.speak(searchResult, TextToSpeech.QUEUE_FLUSH, null);
             messages.add(new Message(searchResult, true));
@@ -211,6 +212,15 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
            // onGPS();
             GPSTracker gps = new GPSTracker(getContext());
              AppUtils.sendSOSEmail(gps.getLocation(getContext()));
+        }
+
+        if(respond.contains("weather")){
+            Weather weather = currentWeather;
+            String msg = weather.getDescription() +" with temperature of "+weather.getTemperature();
+            t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+            messages.add(new Message(msg, true));
+            adapter.notifyItemInserted(messages.size() - 1);
+            recyclerView.smoothScrollToPosition(messages.size() - 1);
         }
 
 
