@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import Data.Weather;
 import Services.FirebaseManager;
 import Services.SendEmail;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText email, ps;
     private CheckBox cb;
     public static final FirebaseManager firebaseManager = new FirebaseManager();
-    SendEmail sendEmail;
+    public static Weather currentWeather = null;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         ps = (EditText) findViewById(R.id.password);
         cb = (CheckBox) findViewById(R.id.checkBox);
-
 
       /*  try {
       /*  try
@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View arg0) {
 
+
                 // Start NewActivity.class
+                AppUtils.getCurrentLocationWeather(MainActivity.this);
                 if (firebaseManager.authUser(email.getText().toString().trim(), ps.getText().toString())) {
                     if (cb.isChecked()) {
                         String serial = Build.SERIAL;

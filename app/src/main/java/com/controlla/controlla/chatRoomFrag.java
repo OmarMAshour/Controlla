@@ -188,7 +188,6 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                 }
             }
 
-
             String searchResult="";
             t1.speak(searchResult, TextToSpeech.QUEUE_FLUSH, null);
             messages.add(new Message(searchResult, true));
