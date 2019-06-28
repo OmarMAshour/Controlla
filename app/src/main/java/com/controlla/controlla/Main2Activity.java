@@ -233,7 +233,6 @@ public class Main2Activity extends AppCompatActivity {
                     if(!L_TIMING_ADVANCE.equals("NA") && !L_TIMING_ADVANCE.equals("")){
 
                     }
-                    System.out.println("xxxxxxxxxxxxxxxxx");
                 }
 
 

@@ -1,15 +1,9 @@
 package com.controlla.controlla;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -23,8 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +40,10 @@ import ai.api.android.AIService;
 import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
@@ -55,6 +59,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     private RecyclerView recyclerView;
     private TextView mTextMessage;
     private Timer ResetDTCTimer;
+    String toConvert="";
+    String myResponse="";
+    JSONObject Json ;
 
     //    AIConfiguration config ;
     private ContextWrapper cw;
@@ -189,11 +196,75 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             }
 
 
-            String searchResult="";
-            t1.speak(searchResult, TextToSpeech.QUEUE_FLUSH, null);
-            messages.add(new Message(searchResult, true));
-            adapter.notifyItemInserted(messages.size() - 1);
-            recyclerView.smoothScrollToPosition(messages.size() - 1);
+
+            OkHttpClient client = new OkHttpClient();
+            String Url = "https://api.duckduckgo.com/?q="+searchWord+"&format=json";
+            final Request request =  new Request.Builder().url(Url).build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    System.out.println("failed");
+                    myResponse = "No Result FOund";
+                }
+
+                @Override
+                public void onResponse(Call call, okhttp3.Response response) throws IOException {
+                    System.out.println(response.isSuccessful());
+                    if(response.isSuccessful()){
+                        myResponse = response.body().string();
+                        try {
+                             Json = new JSONObject(myResponse);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        String searchResult= null;
+                        String AbstractText = "";
+
+                        try {
+                            AbstractText =String.valueOf(Json.get("AbstractText"));
+                            if(AbstractText.length()>3) {
+                                searchResult = String.valueOf(Json.get("AbstractText"));
+                            }
+                            else{
+                                boolean notnull=false;
+                                JSONArray JsonArray = Json.getJSONArray("RelatedTopics");
+                                System.out.println(JsonArray.length());
+                                for (int i=0;i<JsonArray.length();i++){
+                                    JSONObject JsonObject = JsonArray.getJSONObject(i);
+                                    if(JsonObject !=null){
+                                        searchResult = JsonObject.getString("Text");
+                                        notnull=true;
+                                        break;
+                                    }
+                                }
+                                if(!notnull){
+                                    searchResult="Not Found";
+                                }
+
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        t1.speak(searchResult, TextToSpeech.QUEUE_FLUSH, null);
+                        messages.add(new Message(searchResult, true));
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyItemInserted(messages.size() - 1);
+                                recyclerView.smoothScrollToPosition(messages.size() - 1);
+                            }
+                        });
+
+                    }
+                }
+            });
+
+
+
         }
 
 
@@ -327,6 +398,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         }
         super.onPause();
     }
+
 
 
 
