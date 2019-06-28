@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-initial weather check implementation
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
