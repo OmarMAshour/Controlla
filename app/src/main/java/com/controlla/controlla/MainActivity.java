@@ -33,6 +33,7 @@ import java.util.List;
 import Data.Weather;
 import Services.DrowsinessDetection;
 import Services.FirebaseManager;
+import Services.GoogleCalendar;
 import Services.SendEmail;
 import me.everything.providers.android.calendar.Calendar;
 import me.everything.providers.android.calendar.CalendarProvider;
@@ -88,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View arg0) {
 
-
+               // GoogleCalendar googleCalendar = new GoogleCalendar(MainActivity.this);
+                //googleCalendar.Configuration();
 //                DrowsinessDetection.detect(MainActivity.this);
 
                 // Start NewActivity.class
