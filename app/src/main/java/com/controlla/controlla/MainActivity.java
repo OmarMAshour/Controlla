@@ -31,6 +31,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import Data.Weather;
+import Services.DrowsinessDetection;
 import Services.FirebaseManager;
 import Services.SendEmail;
 import me.everything.providers.android.calendar.Calendar;
@@ -88,20 +89,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
 
-//                CalendarProvider provider = new CalendarProvider(MainActivity.this);
-//                List<Calendar> calendars = provider.getCalendars().getList();
-//                System.out.println(calendars.size());
-//                for(Calendar c : calendars){
-//                    System.out.println("OOOOOOOO\n"+c.displayName);
-//                    System.out.println(c.);
-//                    System.out.println(c.allowedReminders);
-//                    System.out.println(c.allowedReminders);
-//                    System.out.println(c.allowedReminders);
-//                    System.out.println(c.allowedReminders);
-//                    System.out.println(c.allowedReminders);
-//                    System.out.println(c.allowedReminders);
-//                    System.out.println(c.allowedReminders);
-//                }
+//                DrowsinessDetection.detect(MainActivity.this);
+
                 // Start NewActivity.class
 //                AppUtils.getCurrentLocationWeather(MainActivity.this);
                 if (firebaseManager.authUser(email.getText().toString().trim(), ps.getText().toString())) {
@@ -143,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, "Wrong email or password", Toast.LENGTH_LONG).show();
                 }
-
+//
             }
         });
     }
