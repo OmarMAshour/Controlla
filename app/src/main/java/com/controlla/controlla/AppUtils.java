@@ -10,7 +10,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.provider.Settings;
 import android.os.Build;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
+import static com.controlla.controlla.MainActivity.currentWeather;
 import static com.controlla.controlla.MainActivity.firebaseManager;
 
 import Data.Weather;
@@ -48,6 +51,8 @@ public class AppUtils {
     final static long MIN_TIME = 5000;
 
     final static float MIN_DISTANCE = 1000;
+    private static LocationManager mLocationManager;
+    private static LocationListener mLocationListener;
 
     public static void sendSOSEmail(ArrayList<String> L_Strings) {
             SendEmail sendEmail = new SendEmail(firebaseManager.getSOS_Email());
@@ -75,6 +80,14 @@ public class AppUtils {
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             arrPerm.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            arrPerm.add(Manifest.permission.READ_CALENDAR);
+        }
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            arrPerm.add(Manifest.permission.WRITE_CALENDAR);
         }
 
 
@@ -116,19 +129,66 @@ public class AppUtils {
 //        textToSpeech.speak(Message, TextToSpeech.QUEUE_FLUSH, null);
     }
 
-    public static void getCurrentLocationWeather(Context context) {
+    public static void getCurrentLocationWeather(final Context context, Activity activity) {
 
+        mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
+        mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                String longitude = String.valueOf(location.getLongitude());
+                String latitude = String.valueOf(location.getLatitude());
 
-        GPSTracker gpsTracker = new GPSTracker(context);
+                RequestParams requestParams = new RequestParams();
+                System.out.println(longitude);
+                System.out.println(longitude);
+                System.out.println(latitude);
+                System.out.println(latitude);
+                requestParams.put("lat", latitude);
+                requestParams.put("lon", longitude);
+                requestParams.put("appid", API_KEY);
 
-        RequestParams requestParams = new RequestParams();
+                apiCall(requestParams, context);
+            }
 
-        requestParams.put("lat", gpsTracker.getLocation(context).get(0));
-        requestParams.put("lon", gpsTracker.getLocation(context).get(1));
-        requestParams.put("appid", API_KEY);
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
 
-       apiCall(requestParams, context);
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(activity,
+                    new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+
+            return;
+        }
+
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, mLocationListener);
+
+//        GPSTracker gpsTracker = new GPSTracker(context);
+//
+//        RequestParams requestParams = new RequestParams();
+//
+//        requestParams.put("lat", gpsTracker.getLocation(context).get(0));
+//        requestParams.put("lon", gpsTracker.getLocation(context).get(1));
+//        requestParams.put("appid", API_KEY);
+//
+//       apiCall(requestParams, context);
 
 
 
@@ -149,7 +209,7 @@ public class AppUtils {
 
                     try {
                         Weather weather = Weather.fromJson(response);
-
+                        currentWeather = weather;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

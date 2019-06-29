@@ -28,9 +28,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import java.util.List;
+
 import Data.Weather;
 import Services.FirebaseManager;
 import Services.SendEmail;
+import me.everything.providers.android.calendar.Calendar;
+import me.everything.providers.android.calendar.CalendarProvider;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -84,8 +88,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
 
+//                CalendarProvider provider = new CalendarProvider(MainActivity.this);
+//                List<Calendar> calendars = provider.getCalendars().getList();
+//                System.out.println(calendars.size());
+//                for(Calendar c : calendars){
+//                    System.out.println("OOOOOOOO\n"+c.displayName);
+//                    System.out.println(c.);
+//                    System.out.println(c.allowedReminders);
+//                    System.out.println(c.allowedReminders);
+//                    System.out.println(c.allowedReminders);
+//                    System.out.println(c.allowedReminders);
+//                    System.out.println(c.allowedReminders);
+//                    System.out.println(c.allowedReminders);
+//                    System.out.println(c.allowedReminders);
+//                }
                 // Start NewActivity.class
-                AppUtils.getCurrentLocationWeather(MainActivity.this);
+//                AppUtils.getCurrentLocationWeather(MainActivity.this);
                 if (firebaseManager.authUser(email.getText().toString().trim(), ps.getText().toString())) {
                     if (cb.isChecked()) {
                         String serial = Build.SERIAL;

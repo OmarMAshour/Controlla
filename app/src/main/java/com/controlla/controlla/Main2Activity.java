@@ -33,6 +33,8 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         setTitle("Main Page");
 
+        AppUtils.getCurrentLocationWeather(Main2Activity.this, Main2Activity.this);
+
         final FragmentManager fragmentManager = getSupportFragmentManager();
         final Fragment frag1=new chatRoomFrag();
         final Fragment frag2=new statusFrag();

@@ -41,7 +41,7 @@ public  class RetrieveFeedTask extends AsyncTask<String,Void,String> {
 
         try {
             Transport t = session.getTransport("smtp");
-            t.connect("mohdosama962@gmail.com", "721996123");
+            t.connect("mohdosama962@gmail.com", "7219961234");
             t.sendMessage(msg, msg.getAllRecipients());
             t.close();
         } catch (MessagingException e) {
