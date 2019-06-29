@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
@@ -22,6 +23,7 @@ import com.google.gson.JsonElement;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,7 +65,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     String toConvert="";
     String myResponse="";
     JSONObject Json ;
-
+    private ProgressBar ecoProgressBar;
+    private TextView ecoTextView;
+    private Timer ecoTimer;
     //    AIConfiguration config ;
     private ContextWrapper cw;
 
@@ -85,8 +89,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         mTextMessage = view.findViewById(R.id.message);
         BottomNavigationView navigation = view.findViewById(R.id.navigation);
 
-        validateOS();
 
+
+        validateOS();
 //        final AIConfiguration config = new AIConfiguration("8aa3d40d997a4af18221c98de5bd2b90", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
         final AIConfiguration config = new AIConfiguration("7c6cc24aa2174ae6b78162caca232905  ", AIConfiguration.SupportedLanguages.English, AIConfiguration.RecognitionEngine.System);
         aiService = AIService.getService(this.getActivity(), config);
@@ -120,13 +125,49 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             }
         }, 0, 1000);
 
+
+        ecoProgressBar = view.findViewById(R.id.eco_progress_bar);
+        ecoTextView = view.findViewById(R.id.eco_value_txt);
+
+        ecoTimer = new Timer();
+
+        ecoTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try{
+                    setEcoData();
+                }catch (Exception ex){
+                    System.out.println(ex.getStackTrace());
+                }
+            }
+        }, 0, 1000);
         return view;
     }
 
+    private void setEcoData(){
+        if(!firebaseManager.L_RPM.equals("NA") && !firebaseManager.L_RPM.equals("")){
+            String rpmStr = firebaseManager.L_RPM.split(" ")[0];
+            double rpm = Double.parseDouble(rpmStr);
+            rpm -=2000;
+            if(rpm<=0){
+                ecoProgressBar.setProgress(100);
+                ecoTextView.setText("Eco Percentage: 100%");
+            }else if (rpm>=5000){
+                ecoProgressBar.setProgress(0);
+                ecoTextView.setText("Eco Percentage: 0%");
+
+            }else{
+                double value = 100 - ((rpm/5000)*100);
+                int progressValue = (int) value;
+                ecoProgressBar.setProgress(progressValue);
+                ecoTextView.setText("Eco Percentage: "+progressValue+"%");
+            }
+        }
+    }
 
     private void resetDTCDone(){
         if(firebaseManager.Reset_DTC.equals("DONE")){
-            t1.speak("Reseting fault code has been done successfully", TextToSpeech.QUEUE_FLUSH, null);
+            t1.speak("Reseting fault code has been done successfully", TextToSpeech.QUEUE_FLUSH, null, null);
             messages.add(new Message("Reseting fault code has been done successfully",true));
             adapter.notifyItemInserted(messages.size() - 1);
             recyclerView.smoothScrollToPosition(messages.size() -1);
@@ -170,7 +211,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         //JUST A COMMENT
         String respond = result.getFulfillment().getSpeech(); //+ " .";
         if(!respond.contains("Searching")){
-            t1.speak(respond, TextToSpeech.QUEUE_FLUSH, null);
+            t1.speak(respond, TextToSpeech.QUEUE_FLUSH, null, null);
             messages.add(new Message(respond, true));
             adapter.notifyItemInserted(messages.size() - 1);
             recyclerView.smoothScrollToPosition(messages.size() - 1);
@@ -250,7 +291,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                             e.printStackTrace();
                         }
 
-                        t1.speak(searchResult, TextToSpeech.QUEUE_FLUSH, null);
+                        t1.speak(searchResult, TextToSpeech.QUEUE_FLUSH, null, null);
                         messages.add(new Message(searchResult, true));
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -272,7 +313,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 
         if (respond.contains("Getting you")) {
             String value = getCorrespondingOBDValue(respond);
-            t1.speak(value, TextToSpeech.QUEUE_FLUSH, null);
+            t1.speak(value, TextToSpeech.QUEUE_FLUSH, null, null);
             messages.add(new Message(value, true));
             adapter.notifyItemInserted(messages.size() - 1);
             recyclerView.smoothScrollToPosition(messages.size() - 1);
@@ -289,7 +330,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         if(respond.contains("weather")){
             Weather weather = currentWeather;
             String msg = weather.getDescription() +" with temperature of "+weather.getTemperature();
-            t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null);
+            t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null, null);
             messages.add(new Message(msg, true));
             adapter.notifyItemInserted(messages.size() - 1);
             recyclerView.smoothScrollToPosition(messages.size() - 1);
@@ -367,7 +408,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     @Override
     public void onError(AIError error) {
         messages.add(new Message("Please try again.", true));
-        t1.speak("Please try again", TextToSpeech.QUEUE_FLUSH, null);
+        t1.speak("Please try again", TextToSpeech.QUEUE_FLUSH, null, null);
         adapter.notifyItemInserted(messages.size() - 1);
 
         recyclerView.smoothScrollToPosition(messages.size() - 1);
@@ -410,7 +451,23 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         super.onPause();
     }
 
+    @Override
+    public void onStop() {
+        if (t1 != null) {
+            t1.stop();
+            t1.shutdown();
+        }
+        super.onStop();
+    }
 
+    @Override
+    public void onDestroy() {
+        if (t1 != null) {
+            t1.stop();
+            t1.shutdown();
+        }
+        super.onDestroy();
+    }
 
 
 }
