@@ -36,7 +36,7 @@ public class GoogleCalendar {
     private long calendarID;
     Context mContext;
 
-    private static final String ACCOUNT_NAME = "mohdosama962@gmail.com";
+    private static final String ACCOUNT_NAME = "omarmashour77@gmail.com";
     private TableLayout tableLayout;
 
     public GoogleCalendar(Context mContext) {
@@ -45,7 +45,7 @@ public class GoogleCalendar {
 
     public List <String>  Configuration(){
         this.calendarID = getCalendarID();
-        System.out.println("CAlendar ID"+ this.calendarID);
+//        System.out.println("CAlendar ID"+ this.calendarID);
         List <String> events = getEvents(calendarID);
          return events ;
 

@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Data.Weather;
@@ -89,8 +90,12 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View arg0) {
 
-               // GoogleCalendar googleCalendar = new GoogleCalendar(MainActivity.this);
-                //googleCalendar.Configuration();
+//                GoogleCalendar googleCalendar = new GoogleCalendar(MainActivity.this);
+//                List<String> xx = googleCalendar.Configuration();
+//                for(String x:xx){
+//                    System.out.println("ddd");
+//                    System.out.println(x);
+//                }
 //                DrowsinessDetection.detect(MainActivity.this);
 
                 // Start NewActivity.class
