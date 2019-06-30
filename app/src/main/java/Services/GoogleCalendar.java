@@ -43,13 +43,11 @@ public class GoogleCalendar {
         this.mContext = mContext;
     }
 
-    public void Configuration(){
+    public List <String>  Configuration(){
         this.calendarID = getCalendarID();
         System.out.println("CAlendar ID"+ this.calendarID);
         List <String> events = getEvents(calendarID);
-        for (String s : events){
-            System.out.println(s);
-        }
+         return events ;
 
 
     }
