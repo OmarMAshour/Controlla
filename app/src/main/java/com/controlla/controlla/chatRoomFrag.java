@@ -3,6 +3,7 @@ package com.controlla.controlla;
 import android.Manifest;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -67,6 +69,7 @@ import java.util.TimerTask;
 import Data.Weather;
 import Services.DrowsinessDetection;
 import Services.GPSTracker;
+import Services.GoogleMaps;
 import ai.api.AIListener;
 import ai.api.android.AIConfiguration;
 import ai.api.android.AIService;
@@ -532,6 +535,16 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             t1.shutdown();
         }
         super.onDestroy();
+    }
+    public void redirectToGoogleMaps(String Dest) {
+        GoogleMaps GM = new GoogleMaps(getContext());
+        String Origin = GM.GetCurrentAddress();
+        System.out.println(Origin);
+        Origin = Origin.replaceAll("\\s+", "+");
+        Dest = Dest.replaceAll("\\s+" , "+");
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+Origin+"&destination="+Dest+"&travelmode=driving"));
+         startActivity(intent);
+
     }
 
 

@@ -6,6 +6,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,7 +16,10 @@ import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class GPSTracker extends Service implements LocationListener {
     // Get Class Name
@@ -97,6 +102,7 @@ public class GPSTracker extends Service implements LocationListener {
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         arr.add(String.valueOf(location.getLatitude()));
                         arr.add(String.valueOf(location.getLongitude()));
+
                     }
                 }
 
@@ -115,18 +121,19 @@ public class GPSTracker extends Service implements LocationListener {
                                     .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                             arr.add(String.valueOf(location.getLatitude()));
                             arr.add(String.valueOf(location.getLongitude()));
+
                             //updateGPSCoordinates();
                         }
                     }
 
                 }
+
             }
         } catch (Exception e) {
             // e.printStackTrace();
             Log.e("Error : Location",
                     "Impossible to connect to LocationManager", e);
         }
-
 
 
         return arr;
@@ -194,4 +201,40 @@ public class GPSTracker extends Service implements LocationListener {
     public void onProviderDisabled(String s) {
 
     }
+    public List<Address> getGeocoderAddress(Context context,double lat , double lon) {
+        if (location != null) {
+
+            Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
+
+            try {
+                /**
+                 * Geocoder.getFromLocation - Returns an array of Addresses
+                 * that are known to describe the area immediately surrounding the given latitude and longitude.
+                 */
+                List<Address> addresses = geocoder.getFromLocation(lat, lon, this.geocoderMaxResults);
+
+                return addresses;
+            } catch (IOException e) {
+                //e.printStackTrace();
+                Log.e(TAG, "Impossible to connect to Geocoder", e);
+            }
+        }
+
+        return null;
+    }
+    public String getAddressLine(Context context,double lat , double lon) {
+        List<Address> addresses = getGeocoderAddress(context,lat,lon);
+
+        if (addresses != null && addresses.size() > 0) {
+            Address address = addresses.get(0);
+            String addressLine = address.getAddressLine(0);
+
+            return addressLine;
+        } else {
+            return null;
+        }
+    }
+
+
+
 }
