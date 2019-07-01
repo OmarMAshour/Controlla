@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
 import com.ibm.watson.developer_cloud.service.security.IamOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifiedImages;
@@ -59,11 +60,15 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Services.DrowsinessDetection;
+
 
 public class capturingFrag extends Fragment {
 
     TextureView textureView;
     CameraDevice cameraDevice;
+    boolean isImageCaptured = false;
+    Bitmap bitmapGlobal = null;
     private Button takepictureButton;
     String cameraId;
     android.util.Size imageDimensions;
@@ -158,11 +163,13 @@ public class capturingFrag extends Fragment {
             if (characteristics != null) {
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
             }
-            int width = 250, height = 250;
-            if (jpegSizes != null && jpegSizes.length > 0) {
-                width = jpegSizes[0].getWidth();
-                height = jpegSizes[0].getHeight();
-            }
+            int width = 100, height = 100;
+//            int width = 250, height = 250;
+//            if (jpegSizes != null && jpegSizes.length > 0) {
+//                width = jpegSizes[0].getWidth();
+//                height = jpegSizes[0].getHeight();
+//            }
+
             ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurfaces = new ArrayList<Surface>(2);
             outputSurfaces.add(reader.getSurface());
@@ -188,44 +195,51 @@ public class capturingFrag extends Fragment {
                         matrix.postRotate(180);
                         Bitmap rotated = Bitmap.createBitmap(myImg, 0, 0, myImg.getWidth(), myImg.getHeight(),
                                 matrix, true);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        rotated.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
+                        bitmapGlobal = rotated;
+                        isImageCaptured = true;
+//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                        rotated.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                        byte[] byteArray = stream.toByteArray();
 //                        image.setImageBitmap(rotated);
 
-                        save(byteArray);
+//                        save(byteArray);
 
-                        IamOptions options = new IamOptions.Builder()
-                                .apiKey("6bE1vwWoNgxGn6Y4WNG4w6C6tbMRtince_kohCsH2D5k")
-                                .build();
-                        VisualRecognition service = new VisualRecognition("2018-03-19", options);
+//                        IamOptions options = new IamOptions.Builder()
+//                                .apiKey("6bE1vwWoNgxGn6Y4WNG4w6C6tbMRtince_kohCsH2D5k")
+//                                .build();
+//                        VisualRecognition service = new VisualRecognition("2018-03-19", options);
                         try {
-                            String FileName = "MyCameraApp/seatbelt.jpg";
-                            String path  =Environment.getExternalStorageDirectory()+"/"+FileName;
-                            File initialFile = new File(path);
-                            InputStream imagesStream = new DataInputStream(new FileInputStream(initialFile));
-                            ClassifyOptions classifyOptions = new ClassifyOptions.Builder()
-                                    .imagesFile(imagesStream)
-                                    .imagesFilename("seatbelt.jpg")
-                                    .threshold((float) 0.0)
-                                    .classifierIds(Arrays.asList("default"))
-                                    .build();
+//                            String FileName = "MyCameraApp/seatbelt.jpg";
+//                            String path  =Environment.getExternalStorageDirectory()+"/"+FileName;
+//                            File initialFile = new File(path);
+//                            InputStream imagesStream = new DataInputStream(new FileInputStream(initialFile));
+//                            ClassifyOptions classifyOptions = new ClassifyOptions.Builder()
+//                                    .imagesFile(imagesStream)
+//                                    .imagesFilename("seatbelt.jpg")
+//                                    .threshold((float) 0.0)
+//                                    .classifierIds(Arrays.asList("default"))
+//                                    .build();
 
-                            ClassifiedImages result = service.classify(classifyOptions).execute();
-                            String strResult = result.toString();
-                            System.out.println(strResult);
-                            boolean seatbelt = CheckSeatbelt(strResult);
+//                            ClassifiedImages result = service.classify(classifyOptions).execute();
+                            ArrayList<String> resultList = DrowsinessDetection.detect(view.getContext(), rotated);
+//                            String strResult = result.toString();
+                            System.out.println(resultList.get(0));
+                            System.out.println(resultList.get(1));
+//                            boolean seatbelt = CheckSeatbelt(strResult);
 
-                            if(seatbelt){
-                                Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
-                            }else{
-                                Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
-                            }
+//                            if(seatbelt){
+//                                Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
+//                            }else{
+//                                Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
+//                            }
+
+                                Toast.makeText(getContext(), resultList.get(0)+" - "+resultList.get(1), Toast.LENGTH_LONG).show();
+
           /*  for (int i=0;i<c.length();i++){
                 JSONObject obj = c.getJSONObject(i);
                 System.out.println(obj.);
             }*/
-                            System.out.println(result);
+//                            System.out.println(result);
 
 
                         } catch (Exception e) {
@@ -288,6 +302,10 @@ public class capturingFrag extends Fragment {
                 }
             }, handler);
         } catch (Exception e) {
+        }
+        if(isImageCaptured){
+
+            isImageCaptured = false;
         }
     }
 
