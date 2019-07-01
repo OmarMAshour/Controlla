@@ -90,6 +90,11 @@ public class AppUtils {
             arrPerm.add(Manifest.permission.WRITE_CALENDAR);
         }
 
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            arrPerm.add(Manifest.permission.CAMERA);
+        }
+
+
 
         if (!arrPerm.isEmpty()) {
             String[] permissions = new String[arrPerm.size()];

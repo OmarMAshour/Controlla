@@ -23,6 +23,7 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceLandmark;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DrowsinessDetection {
@@ -32,10 +33,12 @@ public class DrowsinessDetection {
 
 
 
-    public static void detect(Context context){
+    public static ArrayList<String> detect(Context context, Bitmap bitmap){
 
-        BitmapDrawable drawable = (BitmapDrawable) context.getDrawable(R.drawable.salah);
-        Bitmap bitmap = drawable.getBitmap();
+        final ArrayList<String> resultList = new ArrayList<>();
+
+//        BitmapDrawable drawable = (BitmapDrawable) context.getDrawable(R.drawable.salah);
+//        Bitmap bitmap = drawable.getBitmap();
 
         // Real-time contour detection of multiple faces
 //        FirebaseVisionFaceDetectorOptions realTimeOpts =
@@ -83,16 +86,28 @@ public class DrowsinessDetection {
                                             if (face.getRightEyeOpenProbability() != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                                                 float rightEyeOpenProb = face.getRightEyeOpenProbability();
                                                 System.out.println(rightEyeOpenProb);
+                                                resultList.add(String.valueOf(rightEyeOpenProb));
+
+                                            }else{
+                                                resultList.add("0");
 
                                             }
 
                                             if (face.getLeftEyeOpenProbability() != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                                                 float leftEyeOpenProb = face.getLeftEyeOpenProbability();
                                                 System.out.println(leftEyeOpenProb);
+                                                resultList.add(String.valueOf(leftEyeOpenProb));
+
+                                            }else{
+                                                resultList.add("0");
 
                                             }
 
 
+                                        }
+                                        if(resultList.size()<2){
+                                            resultList.add("0");
+                                            resultList.add("0");
                                         }
 
                                     }
@@ -104,10 +119,17 @@ public class DrowsinessDetection {
                                         // Task failed with an exception
                                         // ...
                                         System.out.println("isA 5eeer ...........");
+                                        resultList.add("0");
+                                        resultList.add("0");
+
                                     }
                                 });
 
 
+        while(resultList.size()<2){
+            System.out.println("Detecting");
+        }
+        return resultList;
 
 
     }
