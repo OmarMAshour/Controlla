@@ -633,7 +633,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                             ArrayList<String> resultList = DrowsinessDetection.detect(view.getContext(), rotated);
 //                            String strResult = result.toString();
                             System.out.println(resultList.get(0));
-                            System.out.println(resultList.get(1));
+                            System.out.println(resultList.get(1)); 
 //                            boolean seatbelt = CheckSeatbelt(strResult);
 
 //                            if(seatbelt){
