@@ -12,6 +12,8 @@ import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Build;
 import android.provider.Settings;
@@ -28,13 +30,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.vision.barcode.Barcode;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Data.Weather;
 import Services.DrowsinessDetection;
 import Services.FirebaseManager;
+import Services.GPSTracker;
 import Services.GoogleCalendar;
+import Services.GoogleMaps;
 import Services.SendEmail;
 import me.everything.providers.android.calendar.Calendar;
 import me.everything.providers.android.calendar.CalendarProvider;
@@ -89,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View arg0) {
+
+
 
 //                GoogleCalendar googleCalendar = new GoogleCalendar(MainActivity.this);
 //                List<String> xx = googleCalendar.Configuration();
