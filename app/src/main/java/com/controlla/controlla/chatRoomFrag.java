@@ -2,7 +2,9 @@ package com.controlla.controlla;
 
 import android.Manifest;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.BottomNavigationView;
@@ -36,6 +38,7 @@ import java.util.TimerTask;
 
 import Data.Weather;
 import Services.GPSTracker;
+import Services.GoogleMaps;
 import ai.api.AIListener;
 import ai.api.android.AIConfiguration;
 import ai.api.android.AIService;
@@ -467,6 +470,16 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             t1.shutdown();
         }
         super.onDestroy();
+    }
+    public void redirectToGoogleMaps(String Dest) {
+        GoogleMaps GM = new GoogleMaps(getContext());
+        String Origin = GM.GetCurrentAddress();
+        System.out.println(Origin);
+        Origin = Origin.replaceAll("\\s+", "+");
+        Dest = Dest.replaceAll("\\s+" , "+");
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+Origin+"&destination="+Dest+"&travelmode=driving"));
+         startActivity(intent);
+
     }
 
 

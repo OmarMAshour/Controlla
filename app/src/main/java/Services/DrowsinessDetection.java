@@ -2,7 +2,6 @@ package Services;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
