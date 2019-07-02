@@ -105,8 +105,8 @@ public class DrowsinessDetection {
 
                                         }
                                         if(resultList.size()<2){
-                                            resultList.add("0");
-                                            resultList.add("0");
+                                            resultList.add("-1");
+                                            resultList.add("-1");
                                         }
 
                                     }
@@ -118,8 +118,8 @@ public class DrowsinessDetection {
                                         // Task failed with an exception
                                         // ...
                                         System.out.println("isA 5eeer ...........");
-                                        resultList.add("0");
-                                        resultList.add("0");
+                                        resultList.add("-1");
+                                        resultList.add("-1");
 
                                     }
                                 });
