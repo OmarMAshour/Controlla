@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View arg0) {
 
-
+//            AppUtils.redirectToGoogleMaps("gas station", MainActivity.this);
 
 //                GoogleCalendar googleCalendar = new GoogleCalendar(MainActivity.this);
 //                List<String> xx = googleCalendar.Configuration();
@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, "Wrong email or password", Toast.LENGTH_LONG).show();
                 }
-//
             }
         });
     }

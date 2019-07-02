@@ -536,16 +536,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         }
         super.onDestroy();
     }
-    public void redirectToGoogleMaps(String Dest) {
-        GoogleMaps GM = new GoogleMaps(getContext());
-        String Origin = GM.GetCurrentAddress();
-        System.out.println(Origin);
-        Origin = Origin.replaceAll("\\s+", "+");
-        Dest = Dest.replaceAll("\\s+" , "+");
-        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+Origin+"&destination="+Dest+"&travelmode=driving"));
-         startActivity(intent);
 
-    }
 
 
 

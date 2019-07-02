@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.provider.Settings;
@@ -26,6 +27,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import Services.GoogleMaps;
 import cz.msebera.android.httpclient.Header;
 
 import org.json.JSONException;
@@ -228,6 +231,17 @@ public class AppUtils {
                     Toast.makeText(context, "Error occurred while making request!", Toast.LENGTH_LONG).show();
                 }
             });
+
+    }
+
+    public static void redirectToGoogleMaps(String Dest, Context context) {
+        GoogleMaps GM = new GoogleMaps(context);
+        String Origin = GM.GetCurrentAddress();
+        System.out.println(Origin);
+        Origin = Origin.replaceAll("\\s+", "+");
+        Dest = Dest.replaceAll("\\s+" , "+");
+        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+Origin+"&destination="+Dest+"&travelmode=driving"));
+        context.startActivity(intent);
 
     }
 
