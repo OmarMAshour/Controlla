@@ -394,6 +394,14 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         if(respond.contains("weather")){
             Weather weather = currentWeather;
             String msg = weather.getDescription() +" with temperature of "+weather.getTemperature();
+
+            if(Double.parseDouble(weather.getTemperature().split("°")[0])<=20){
+                msg+=". \nIt is getting cold wear heavy clothes";
+            }else if(Double.parseDouble(weather.getTemperature().split("°")[0])<30){
+                msg+=". \nIt seems to be a cool temperature, Enjoy it!";
+            }else if(Double.parseDouble(weather.getTemperature().split("°")[0])>30){
+                msg+=". \nIt is hot outside, take care of having a sunstroke.";
+            }
             t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null, null);
             messages.add(new Message(msg, true));
             adapter.notifyItemInserted(messages.size() - 1);
