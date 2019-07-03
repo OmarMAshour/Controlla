@@ -31,12 +31,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static com.controlla.controlla.MainActivity.*;
 public class GoogleCalendar {
 
     private long calendarID;
     Context mContext;
 
-    private static final String ACCOUNT_NAME = "omarmashour77@gmail.com";
+//    private static final String ACCOUNT_NAME = "omarmashour77@gmail.com";
+    private static final String ACCOUNT_NAME = firebaseManager.currentSignedEmail;
     private TableLayout tableLayout;
 
     public GoogleCalendar(Context mContext) {
