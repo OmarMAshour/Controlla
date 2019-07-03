@@ -82,8 +82,8 @@ public class AppUtils {
         GPSTracker gps = new GPSTracker(context);
 
         String msg = "Dear Sir, \n" +
-                "Your friend - "+firebaseManager.currentSignedUserName+" -is in emergency , help him Friend he is in the following location" +
-                "    http://maps.google.com/maps?q="+gps.getLocation(context).get(0)+","+gps.getLocation(context).get(1)+ "\n\n"+"Best Regards,\nControlla";
+                "Your friend - "+firebaseManager.currentSignedUserName+" -is in emergency , help him! he is in the following location:" +
+                " http://maps.google.com/maps?q="+gps.getLocation(context).get(0)+","+gps.getLocation(context).get(1)+ "\n\n"+"Best Regards,\nControlla";
 
         String[] receipentsMails = firebaseManager.getSOS_Email().split(",");
         ArrayList<String> receipentsList = new ArrayList<String>(Arrays.asList(receipentsMails));
