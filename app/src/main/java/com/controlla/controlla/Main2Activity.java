@@ -89,6 +89,9 @@ public class Main2Activity extends AppCompatActivity {
             }
         }, 0, 1000);
 
+        if(!firebaseManager.L_DTCS_arraylist.get(0).equals("NA")){
+            AppUtils.sendDTCEmail();
+        }
 
     }
 
@@ -127,6 +130,10 @@ public class Main2Activity extends AppCompatActivity {
                             AppUtils.sendNotification(Main2Activity.this, "Coolant Temperature Problem",
                                     "Your coolant temperature is "+value+" which is not with in the normal boundaries ... go and check it ASAP!");
 
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Coolant Temperature Problem", "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                    "Your coolant temperature is "+value+" " +
+                                    "which is not with in the normal boundaries ... go and check it ASAP!\n\n Best Regards,\nControlla");
+
                         }
 
                     }
@@ -139,12 +146,14 @@ public class Main2Activity extends AppCompatActivity {
                         if (value>60){
                             AppUtils.sendNotification(Main2Activity.this, "Engine Load High",
                                     "Be careful by this way you are harming your Engine.!");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Engine Load High",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                    "Be careful by this way you are harming your Engine.!" +
+                                    "\n\n Best Regards,\nControlla");
                         }
                     }
 
-                    if(!L_FUEL_INJECT_TIMING.equals("NA")&& !L_FUEL_INJECT_TIMING.equals("")){
 
-                    }
 
                     if(!L_FUEL_PRESSURE.equals("NA") && !L_FUEL_PRESSURE.equals("")){
                         String[] values = L_FUEL_PRESSURE.split(" ");
@@ -154,6 +163,10 @@ public class Main2Activity extends AppCompatActivity {
                         if (value>448.159){
                             AppUtils.sendNotification(Main2Activity.this, "Fuel Pressure High",
                                     "Be careful your fuel pressure is at a high rate !");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Fuel Pressure High",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                            "Be careful your fuel pressure is at a high rate !" +
+                                            "\n\n Best Regards,\nControlla");
                         }
                     }
 
@@ -162,19 +175,17 @@ public class Main2Activity extends AppCompatActivity {
 
                         double value = Double.parseDouble(values[0]);
 
-                        if (value>10){
-                            AppUtils.sendNotification(Main2Activity.this, "Fuel Pressure High",
+                        if (value<=10){
+                            AppUtils.sendNotification(Main2Activity.this, "Fuel Level Low",
                                     "Be careful you are getting out of fuel!!!");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Fuel Level Low",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                            "Be careful you are getting out of fuel!!!" +
+                                            "\n\n Best Regards,\nControlla");
                         }
                     }
 
-                    if(!L_FUEL_RATE.equals("NA") && !L_FUEL_RATE.equals("")){
 
-                    }
-
-                    if(!L_FUEL_TYPE.equals("NA") && !L_FUEL_TYPE.equals("")){
-
-                    }
 
                     if(!L_INTAKE_PRESSURE.equals("NA") && !L_INTAKE_PRESSURE.equals("")){
                         String[] values = L_INTAKE_PRESSURE.split(" ");
@@ -184,6 +195,10 @@ public class Main2Activity extends AppCompatActivity {
                         if (value>137.895){
                             AppUtils.sendNotification(Main2Activity.this, "Intake Pressure High",
                                     "Warning!!! Intake pressure is higher than normal!");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Intake Pressure High",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                            "Warning!!! Intake pressure is higher than normal!" +
+                                            "\n\n Best Regards,\nControlla");
                         }
                     }
 
@@ -195,6 +210,10 @@ public class Main2Activity extends AppCompatActivity {
                         if (value<1 || value>3.5){
                             AppUtils.sendNotification(Main2Activity.this, "Mass Air Flow Rate Warning",
                                     "Your air flow rate is "+value+" which is not a normal flow and may impact your engine performance");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Mass Air Flow Rate Warning",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                            "Your air flow rate is "+value+" which is not a normal flow and may impact your engine performance" +
+                                            "\n\n Best Regards,\nControlla");
                         }
                     }
 
@@ -206,6 +225,10 @@ public class Main2Activity extends AppCompatActivity {
                         if (value>275){
                             AppUtils.sendNotification(Main2Activity.this, "Oil Temperature is very high",
                                     "Your oil temperature is "+value+" degree celsius ... take care this is danger!");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Oil Temperature is very high",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                            "Your oil temperature is "+value+" degree celsius ... take care this is danger!" +
+                                            "\n\n Best Regards,\nControlla");
                         }
                     }
 
@@ -217,6 +240,10 @@ public class Main2Activity extends AppCompatActivity {
                         if (value>6000){
                             AppUtils.sendNotification(Main2Activity.this, "RPM High",
                                     "Kindly notice that your RPM is high");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - RPM High",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                            "Kindly notice that your RPM is high" +
+                                            "\n\n Best Regards,\nControlla");
                         }
                     }
 
@@ -228,15 +255,11 @@ public class Main2Activity extends AppCompatActivity {
                         if (value>100){
                             AppUtils.sendNotification(Main2Activity.this, "Speed Over Normal",
                                     "Your are moving on speed greater than 100 kph which may not be permitted in your region");
+                            AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Speed Over Normal",
+                                    "Dear "+firebaseManager.currentSignedUserName+",\n" +
+                                            "Your are moving on speed greater than 100 kph which may not be permitted in your region" +
+                                            "\n\n Best Regards,\nControlla");
                         }
-                    }
-
-                    if(!L_THROTTLE_POS.equals("NA") && !L_THROTTLE_POS.equals("")){
-
-                    }
-
-                    if(!L_TIMING_ADVANCE.equals("NA") && !L_TIMING_ADVANCE.equals("")){
-
                     }
                 }
 

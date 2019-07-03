@@ -235,8 +235,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 
     private void resetDTCDone(){
         if(firebaseManager.Reset_DTC.equals("DONE")){
-            t1.speak("Reseting fault code has been done successfully", TextToSpeech.QUEUE_FLUSH, null, null);
-            messages.add(new Message("Reseting fault code has been done successfully",true));
+            AppUtils.sendResetDTCConfirmationEmail();
+            t1.speak("Resetting fault code has been done successfully", TextToSpeech.QUEUE_FLUSH, null, null);
+            messages.add(new Message("Resetting fault code has been done successfully",true));
             adapter.notifyItemInserted(messages.size() - 1);
             recyclerView.smoothScrollToPosition(messages.size() -1);
             firebaseManager.Reset_DTC = " ";
@@ -435,17 +436,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 
         if (respond.contains("SOS")) {
            // onGPS();
-            GPSTracker gps = new GPSTracker(getContext());
-
-            String msg = "help your Friend he is in the following location" +
-                    "    http://maps.google.com/maps?q="+gps.getLocation(getContext()).get(0)+","+gps.getLocation(getContext()).get(1);
-
-            String[] receipentsMails = firebaseManager.getSOS_Email().split(",");
-            ArrayList<String> receipentsList = new ArrayList<String>(Arrays.asList(receipentsMails));
-            for(String mail: receipentsList){
-                AppUtils.sendEmail(mail, "Controlla - SOS", msg);
-
-            }
+            AppUtils.sendSOSEmail(getContext());
 
         }
 

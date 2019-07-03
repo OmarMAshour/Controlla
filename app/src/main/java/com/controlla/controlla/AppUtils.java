@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 
@@ -61,6 +62,35 @@ public class AppUtils {
             SendEmail sendEmail = new SendEmail(Receiver,Subject,Message);
             sendEmail.DoConfiguration();
 
+    }
+
+    public static void sendDTCEmail(){
+        String msg = "Dear "+firebaseManager.currentSignedUserName+", \n" +
+                "Kindly check the Diagnostic Trouble code part in the app because it contains urgent data that need to be investgated ASAP.\n\nBest Regards,\nControlla";
+        AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - DTC Found", msg);
+
+    }
+
+    public static void sendResetDTCConfirmationEmail(){
+        String msg = "Dear "+firebaseManager.currentSignedUserName+", \n" +
+                "Your request for resetting your fault codes has been done successfully.\n\nBest Regards,\nControlla";
+        AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Reset DTC Done", msg);
+
+    }
+
+    public static void sendSOSEmail(Context context){
+        GPSTracker gps = new GPSTracker(context);
+
+        String msg = "Dear Sir, \n" +
+                "Your friend - "+firebaseManager.currentSignedUserName+" -is in emergency , help him! he is in the following location:" +
+                " http://maps.google.com/maps?q="+gps.getLocation(context).get(0)+","+gps.getLocation(context).get(1)+ "\n\n"+"Best Regards,\nControlla";
+
+        String[] receipentsMails = firebaseManager.getSOS_Email().split(",");
+        ArrayList<String> receipentsList = new ArrayList<String>(Arrays.asList(receipentsMails));
+        for(String mail: receipentsList){
+            AppUtils.sendEmail(mail, "Controlla - SOS", msg);
+
+        }
     }
 
 
