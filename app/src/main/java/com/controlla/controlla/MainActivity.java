@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
 //            AppUtils.redirectToGoogleMaps("gas station", MainActivity.this);
+               // AppUtils.sendSOSEmail();
 
 //                GoogleCalendar googleCalendar = new GoogleCalendar(MainActivity.this);
 //                List<String> xx = googleCalendar.Configuration();

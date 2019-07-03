@@ -27,13 +27,16 @@ public class SendEmail {
     private FusedLocationProviderClient fusedLocationClient;
     Session session = null;
     private String Receiver;
+    private String Subject;
+    private String Message;
 
-    public SendEmail(  String Receiver) {
+    public SendEmail(  String Receiver , String Subject , String Message) {
         this.Receiver = Receiver;
-
+      this.Subject = Subject;
+      this.Message = Message;
     }
 
-    public void DoConfiguration(String x , String y) {
+    public void DoConfiguration() {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.ssl.enable", "true");
@@ -45,7 +48,7 @@ public class SendEmail {
         props.put("mail.smtp.socketFactory.fallback", "false");
         session = Session.getDefaultInstance(props);
         RetrieveFeedTask task = new RetrieveFeedTask(session,Receiver);
-        task.execute(x,y);
+        task.execute(Subject,Message);
     }
 
 
