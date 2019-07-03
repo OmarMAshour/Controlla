@@ -57,7 +57,7 @@ public class AppUtils {
     private static LocationManager mLocationManager;
     private static LocationListener mLocationListener;
 
-    public static void sendSOSEmail(String Receiver , String Subject , String Message) {
+    public static void sendEmail(String Receiver , String Subject , String Message) {
             SendEmail sendEmail = new SendEmail(Receiver,Subject,Message);
             sendEmail.DoConfiguration();
 
