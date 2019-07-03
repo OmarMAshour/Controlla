@@ -69,6 +69,7 @@ import java.util.TimerTask;
 import Data.Weather;
 import Services.DrowsinessDetection;
 import Services.GPSTracker;
+import Services.GoogleCalendar;
 import Services.GoogleMaps;
 import ai.api.AIListener;
 import ai.api.android.AIConfiguration;
@@ -300,9 +301,6 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                     searchWord+=str+" ";
                 }
             }
-
-
-
             OkHttpClient client = new OkHttpClient();
             String Url = "https://api.duckduckgo.com/?q="+searchWord+"&format=json";
             final Request request =  new Request.Builder().url(Url).build();
@@ -368,10 +366,6 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                     }
                 }
             });
-
-
-
-
         }
 
 
@@ -385,11 +379,12 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 
 
         if (respond.contains("SOS")) {
-
            // onGPS();
             GPSTracker gps = new GPSTracker(getContext());
              AppUtils.sendSOSEmail(gps.getLocation(getContext()));
         }
+
+
 
         if(respond.contains("weather")){
             Weather weather = currentWeather;
@@ -414,6 +409,23 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         if(respond.contains("Sending reset")){
             firebaseManager.Reset_DTC = "RESET";
             firebaseManager.Reset_DTCRef.setValue(firebaseManager.Reset_DTC);
+        }
+
+        if(respond.contains("Calendar")){
+
+            String msg = "";
+            GoogleCalendar googleCalendar = new GoogleCalendar(getContext());
+            List<String> events = googleCalendar.Configuration();
+            for(String x:events){
+                msg+=x+"\n";
+            }
+            if(msg.equals("")){
+                msg = "No Events for today";
+            }
+            t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null, null);
+            messages.add(new Message(msg, true));
+            adapter.notifyItemInserted(messages.size() - 1);
+            recyclerView.smoothScrollToPosition(messages.size() - 1);
         }
 
     }
