@@ -435,8 +435,14 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             GPSTracker gps = new GPSTracker(getContext());
 
             String msg = "help your Friend he is in the following location" +
-                    "    http://maps.google.com/maps?q="+gps.getLatitude()+","+gps.getLatitude();
-            AppUtils.sendEmail(firebaseManager.getSOS_Email(), "Controlla - SOS", msg);
+                    "    http://maps.google.com/maps?q="+gps.getLocation(getContext()).get(0)+","+gps.getLocation(getContext()).get(1);
+
+            String[] receipentsMails = firebaseManager.getSOS_Email().split(",");
+            ArrayList<String> receipentsList = new ArrayList<String>(Arrays.asList(receipentsMails));
+            for(String mail: receipentsList){
+                AppUtils.sendEmail(mail, "Controlla - SOS", msg);
+
+            }
 
         }
 
