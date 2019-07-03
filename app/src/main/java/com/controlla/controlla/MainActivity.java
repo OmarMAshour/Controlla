@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if(!firebaseManager.L_DTCS_arraylist.get(0).equals("NA")){
+            AppUtils.sendDTCEmail();
+        }
     }
 
 
