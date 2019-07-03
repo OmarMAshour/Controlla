@@ -275,12 +275,12 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 
         //JUST A COMMENT
         String respond = result.getFulfillment().getSpeech(); //+ " .";
-        if(!respond.contains("Searching")){
+        if(!respond.contains("Searching") && !respond.contains("Going to")){
             t1.speak(respond, TextToSpeech.QUEUE_FLUSH, null, null);
             messages.add(new Message(respond, true));
             adapter.notifyItemInserted(messages.size() - 1);
             recyclerView.smoothScrollToPosition(messages.size() - 1);
-        }else{
+        }else if(respond.contains("Searching")){
             String searchWord="";
             if(respond.contains("Searching for")){
                 String preMsg = messages.get(messages.size()-1).getMessage();
@@ -366,11 +366,63 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
                     }
                 }
             });
+        } else if(respond.contains("Going to")){
+            String place = "";
+            String preMsg = messages.get(messages.size()-1).getMessage();
+
+            if(preMsg.contains("nearest")){
+                String[] words = preMsg.split("nearest");
+
+                if(words.length>1){
+                    place = words[1];
+                }else {
+                    place = words[0];
+                }
+            }else if(preMsg.contains("go to")){
+                String[] words = preMsg.split("go to");
+
+                if(words.length>1){
+                    place = words[1];
+                }else {
+                    place = words[0];
+                }
+            }else if(preMsg.contains("navigate")){
+                String[] words = preMsg.split("navigate");
+
+                if(words.length>1){
+                    place = words[1];
+                }else {
+                    place = words[0];
+                }
+            }else if(preMsg.contains("find")){
+                String[] words = preMsg.split("find");
+
+                if(words.length>1){
+                    place = words[1];
+                }else {
+                    place = words[0];
+                }
+            }
+
+            if(!place.equals("")){
+                AppUtils.redirectToGoogleMaps(place, getContext());
+
+            }else{
+                String msg = "Not Recognized Location";
+                t1.speak(msg, TextToSpeech.QUEUE_FLUSH, null, null);
+                messages.add(new Message(msg, true));
+                adapter.notifyItemInserted(messages.size() - 1);
+                recyclerView.smoothScrollToPosition(messages.size() - 1);
+            }
+
         }
 
 
         if (respond.contains("Getting you")) {
             String value = getCorrespondingOBDValue(respond);
+            if(value.equals("NA")){
+                value = "Your vehicle is not connected";
+            }
             t1.speak(value, TextToSpeech.QUEUE_FLUSH, null, null);
             messages.add(new Message(value, true));
             adapter.notifyItemInserted(messages.size() - 1);
