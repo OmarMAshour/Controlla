@@ -59,9 +59,9 @@ public class Main2Activity extends AppCompatActivity {
                 case R.id.navigation_DTC:
                     fragment=frag3;
                     break;
-                case R.id.navigation_Img_capture:
-                    fragment=frag4;
-                    break;
+//                case R.id.navigation_Img_capture:
+//                    fragment=frag4;
+//                    break;
                 case R.id.navigation_Logout:
                     firebaseManager.currentSignedEmail="";
                     firebaseManager.currentSignedUserName="";

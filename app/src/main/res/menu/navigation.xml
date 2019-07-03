@@ -2,29 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_chat"
-        android:icon="@drawable/sbubble"
+        android:icon="@drawable/ic_chat"
         android:title="Chat" />
 
     <item
         android:id="@+id/navigation_status"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_dashboard"
         android:title="Status" />
 
     <item
         android:id="@+id/navigation_DTC"
-        android:icon="@drawable/tools"
+        android:icon="@drawable/ic_error"
         android:title="DTC" />
 
     <item
-        android:id="@+id/navigation_Img_capture"
-        android:icon="@drawable/cam2"
-        android:title="Image"
+        android:id="@+id/history_menu_item"
+        android:icon="@drawable/ic_action_name"
+        android:title="History"
         />
     <item
         android:id="@+id/navigation_Logout"
-        android:icon="@drawable/exit"
+        android:icon="@drawable/ic_exit"
         android:title="Logout"
         />
+
 
 
 </menu>
