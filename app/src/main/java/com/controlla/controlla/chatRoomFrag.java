@@ -433,7 +433,11 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         if (respond.contains("SOS")) {
            // onGPS();
             GPSTracker gps = new GPSTracker(getContext());
-            
+
+            String msg = "help your Friend he is in the following location" +
+                    "    http://maps.google.com/maps?q="+gps.getLatitude()+","+gps.getLatitude();
+            AppUtils.sendEmail(firebaseManager.getSOS_Email(), "Controlla - SOS", msg);
+
         }
 
 
