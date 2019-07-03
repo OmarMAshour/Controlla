@@ -20,6 +20,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -113,7 +114,8 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     private android.util.Size previewsize;
     private android.util.Size jpegSizes[] = null;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
-    private Timer captureTimer = new Timer();
+    public static final ArrayList<String> drowsinessDetectionList = new ArrayList<>();
+    private MediaPlayer drowsinessMediaPlayer;
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
         ORIENTATIONS.append(Surface.ROTATION_90, 0);
@@ -193,8 +195,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         textureView = view.findViewById(R.id.texture);
         textureView.setSurfaceTextureListener(surfaceTextureListener);
 
-
-//        captureTimer.schedule(new TimerTask() {
+        drowsinessMediaPlayer = MediaPlayer.create(getContext(), R.raw.wakeup);
+        drowsinessMediaPlayer.setLooping(true); // Set looping
+        drowsinessMediaPlayer.setVolume(100,100);//        captureTimer.schedule(new TimerTask() {
 //            @Override
 //            public void run() {
 //
@@ -716,7 +719,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 //                                    .build();
 
 //                            ClassifiedImages result = service.classify(classifyOptions).execute();
-                            ArrayList<String> resultList = DrowsinessDetection.detect(view.getContext(), rotated);
+                            ArrayList<String> resultList = DrowsinessDetection.detect(view.getContext(), rotated, drowsinessMediaPlayer);
 //                            String strResult = result.toString();
                             System.out.println(resultList.get(0));
                             System.out.println(resultList.get(1)); 
@@ -728,7 +731,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 //                                Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
 //                            }
 
-                            Toast.makeText(getContext(), resultList.get(0)+" - "+resultList.get(1), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), resultList.get(0)+" - "+resultList.get(1), Toast.LENGTH_SHORT).show();
 
           /*  for (int i=0;i<c.length();i++){
                 JSONObject obj = c.getJSONObject(i);

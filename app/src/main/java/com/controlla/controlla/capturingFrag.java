@@ -221,10 +221,17 @@ public class capturingFrag extends Fragment {
 //                                    .build();
 
 //                            ClassifiedImages result = service.classify(classifyOptions).execute();
-                            ArrayList<String> resultList = DrowsinessDetection.detect(view.getContext(), rotated);
-//                            String strResult = result.toString();
-                            System.out.println(resultList.get(0));
-                            System.out.println(resultList.get(1));
+
+
+
+
+//                            ArrayList<String> resultList = DrowsinessDetection.detect(view.getContext(), rotated, );
+////                            String strResult = result.toString();
+//                            System.out.println(resultList.get(0));
+//                            System.out.println(resultList.get(1));
+
+
+
 //                            boolean seatbelt = CheckSeatbelt(strResult);
 
 //                            if(seatbelt){
@@ -233,7 +240,7 @@ public class capturingFrag extends Fragment {
 //                                Toast.makeText(getContext(), "Seat Belt Fastened", Toast.LENGTH_LONG).show();
 //                            }
 
-                                Toast.makeText(getContext(), resultList.get(0)+" - "+resultList.get(1), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getContext(), resultList.get(0)+" - "+resultList.get(1), Toast.LENGTH_LONG).show();
 
           /*  for (int i=0;i<c.length();i++){
                 JSONObject obj = c.getJSONObject(i);

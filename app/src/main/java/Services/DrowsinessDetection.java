@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceLandmark;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.controlla.controlla.chatRoomFrag.*;
 public class DrowsinessDetection {
 
 
@@ -32,19 +34,9 @@ public class DrowsinessDetection {
 
 
 
-    public static ArrayList<String> detect(Context context, Bitmap bitmap){
+    public static ArrayList<String> detect(Context context, Bitmap bitmap, final MediaPlayer player){
 
         final ArrayList<String> resultList = new ArrayList<>();
-
-//        BitmapDrawable drawable = (BitmapDrawable) context.getDrawable(R.drawable.salah);
-//        Bitmap bitmap = drawable.getBitmap();
-
-        // Real-time contour detection of multiple faces
-//        FirebaseVisionFaceDetectorOptions realTimeOpts =
-//                new FirebaseVisionFaceDetectorOptions.Builder()
-//                        .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
-//                        .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
-//                        .build();
 
         FirebaseVisionFaceDetectorOptions realTimeOpts =
                 new FirebaseVisionFaceDetectorOptions.Builder()
@@ -79,16 +71,24 @@ public class DrowsinessDetection {
 //                                            System.out.println(face.getRightEyeOpenProbability());
 //                                            System.out.println(face.getSmilingProbability());
 
+                                            boolean leftOpened = true;
+                                            boolean rightOpened = true;
 
+                                            boolean detectedLeftEye = false;
+                                            boolean detectedRightEye = false;
 
                                             // If classification was enabled:
                                             if (face.getRightEyeOpenProbability() != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                                                 float rightEyeOpenProb = face.getRightEyeOpenProbability();
                                                 System.out.println(rightEyeOpenProb);
                                                 resultList.add(String.valueOf(rightEyeOpenProb));
+                                                detectedRightEye = true;
+                                                if(rightEyeOpenProb>0&&rightEyeOpenProb<=0.2){
+                                                    rightOpened = false;
+                                                }
 
                                             }else{
-                                                resultList.add("0");
+                                                resultList.add("-1");
 
                                             }
 
@@ -96,10 +96,29 @@ public class DrowsinessDetection {
                                                 float leftEyeOpenProb = face.getLeftEyeOpenProbability();
                                                 System.out.println(leftEyeOpenProb);
                                                 resultList.add(String.valueOf(leftEyeOpenProb));
-
+                                                detectedLeftEye = true;
+                                                if(leftEyeOpenProb>0&&leftEyeOpenProb<=0.2){
+                                                    leftOpened = false;
+                                                }
                                             }else{
-                                                resultList.add("0");
+                                                resultList.add("-1");
 
+                                            }
+
+                                            if(!rightOpened && !leftOpened){
+                                                drowsinessDetectionList.add("T");
+                                            }else{
+                                                if(drowsinessDetectionList.size()>=5 && detectedLeftEye && detectedRightEye){
+                                                    player.pause();
+
+//                                                    player.release();
+                                                    drowsinessDetectionList.clear();
+
+                                                }
+                                            }
+
+                                            if(drowsinessDetectionList.size()>=5 && !player.isPlaying()){
+                                                player.start();
                                             }
 
 
@@ -107,6 +126,8 @@ public class DrowsinessDetection {
                                         if(resultList.size()<2){
                                             resultList.add("-1");
                                             resultList.add("-1");
+
+
                                         }
 
                                     }
