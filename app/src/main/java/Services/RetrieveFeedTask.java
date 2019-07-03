@@ -14,22 +14,24 @@ import javax.mail.internet.MimeMessage;
 public  class RetrieveFeedTask extends AsyncTask<String,Void,String> {
     Session session ;
     String Receiver;
+
     public  RetrieveFeedTask(Session session, String Receiver){
         this.session = session;
         this.Receiver = Receiver;
+
     }
     public String doInBackground(String ... strings) {
         javax.mail.Message msg = new MimeMessage(session);
-       String x = strings[0];
-       String y = strings[1];
+       String Subject = strings[0];
+       String message  = strings[1];
 
         try {
             msg.setFrom(new InternetAddress("mohdosama962@gmail.com"));
             ((MimeMessage) msg).setRecipients(Message.RecipientType.TO,this.Receiver);
-            msg.setSubject("Controlla - SOS Email");
+            msg.setSubject(Subject);
             msg.setSentDate(new Date());
             // set plain text message
-            msg.setText("help your Friend he is in the current location    " + "http://maps.google.com/maps?q="+x+","+y);
+            msg.setText(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
