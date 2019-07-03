@@ -89,6 +89,9 @@ public class Main2Activity extends AppCompatActivity {
             }
         }, 0, 1000);
 
+        if(!firebaseManager.L_DTCS_arraylist.get(0).equals("NA")){
+            AppUtils.sendDTCEmail();
+        }
 
     }
 
