@@ -235,8 +235,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
 
     private void resetDTCDone(){
         if(firebaseManager.Reset_DTC.equals("DONE")){
-            t1.speak("Reseting fault code has been done successfully", TextToSpeech.QUEUE_FLUSH, null, null);
-            messages.add(new Message("Reseting fault code has been done successfully",true));
+            AppUtils.sendResetDTCConfirmationEmail();
+            t1.speak("Resetting fault code has been done successfully", TextToSpeech.QUEUE_FLUSH, null, null);
+            messages.add(new Message("Resetting fault code has been done successfully",true));
             adapter.notifyItemInserted(messages.size() - 1);
             recyclerView.smoothScrollToPosition(messages.size() -1);
             firebaseManager.Reset_DTC = " ";

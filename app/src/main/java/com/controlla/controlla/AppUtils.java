@@ -71,6 +71,13 @@ public class AppUtils {
 
     }
 
+    public static void sendResetDTCConfirmationEmail(){
+        String msg = "Dear "+firebaseManager.currentSignedUserName+", \n" +
+                "Your request for resetting your fault codes has been done successfully.\n\nBest Regards,\nControlla";
+        AppUtils.sendEmail(firebaseManager.currentSignedEmail, "Controlla - Reset DTC Done", msg);
+
+    }
+
     public static void sendSOSEmail(Context context){
         GPSTracker gps = new GPSTracker(context);
 
