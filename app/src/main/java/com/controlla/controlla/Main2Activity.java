@@ -40,7 +40,8 @@ public class Main2Activity extends AppCompatActivity {
         final Fragment frag1=new chatRoomFrag();
         final Fragment frag2=new statusFrag();
         final Fragment frag3=new DTCfrag();
-        final Fragment frag4=new capturingFrag();
+//        final Fragment frag4=new capturingFrag();
+        final Fragment frag4=new historyFrag();
 
         fragment = frag1;
         fragmentManager.beginTransaction() .replace(R.id.framelayout, fragment).commit();
@@ -60,9 +61,9 @@ public class Main2Activity extends AppCompatActivity {
                 case R.id.navigation_DTC:
                     fragment=frag3;
                     break;
-//                case R.id.navigation_Img_capture:
-//                    fragment=frag4;
-//                    break;
+                case R.id.navigation_history:
+                    fragment=frag4;
+                    break;
                 case R.id.navigation_Logout:
                     firebaseManager.currentSignedEmail="";
                     firebaseManager.currentSignedUserName="";
