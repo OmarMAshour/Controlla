@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -89,9 +90,17 @@ public class Main2Activity extends AppCompatActivity {
             }
         }, 0, 1000);
 
-        if(!firebaseManager.L_DTCS_arraylist.get(0).equals("NA")){
-            AppUtils.sendDTCEmail();
+        ArrayList<String> DTCS = firebaseManager.L_DTCS_arraylist;
+        if(DTCS!=null){
+            if(DTCS.size()>0){
+                if (!DTCS.get(0).equals("NA")){
+                    AppUtils.sendDTCEmail();
+                }
+            }
         }
+//        if(!firebaseManager.L_DTCS_arraylist.get(0).equals("NA")){
+//            AppUtils.sendDTCEmail();
+//        }
 
     }
 
