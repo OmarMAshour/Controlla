@@ -11,4 +11,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="history_spinner_array">
+        <item>Coolant Temperature</item>
+        <item>Engine Load</item>
+        <item>Intake Pressure</item>
+        <item>RPM</item>
+        <item>Speed</item>
+        <item>Throttle Position</item>
+    </string-array>
 </resources>

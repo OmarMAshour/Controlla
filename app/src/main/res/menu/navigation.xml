@@ -16,7 +16,7 @@
         android:title="DTC" />
 
     <item
-        android:id="@+id/history_menu_item"
+        android:id="@+id/navigation_history"
         android:icon="@drawable/ic_action_name"
         android:title="History"
         />

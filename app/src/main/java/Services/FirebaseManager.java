@@ -12,10 +12,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 
 import Data.APP_USER;
@@ -88,6 +90,36 @@ public class FirebaseManager {
 
     public String L_FUEL_RATE = "";
     public DatabaseReference L_FUEL_RATERef;
+
+    public DatabaseReference HISTORYRef;
+
+
+    public String H_COOLANT_TEMPERATURE = "";
+    public DatabaseReference H_COOLANT_TEMPERATURERef;
+    public ArrayList<String> H_COOLANT_TEMPERATURE_LIST;
+
+    public String H_ENGINE_LOAD = "";
+    public DatabaseReference H_ENGINE_LOADRef;
+    public ArrayList<String> H_ENGINE_LOAD_LIST;
+
+    public String H_INTAKE_PRESSURE = "";
+    public DatabaseReference H_INTAKE_PRESSURERef;
+    public ArrayList<String> H_INTAKE_PRESSURE_LIST;
+
+
+    public String H_RPM = "";
+    public DatabaseReference H_RPMRef;
+    public ArrayList<String> H_RPM_LIST;
+
+    public String H_SPEED = "";
+    public DatabaseReference H_SPEEDRef;
+    public ArrayList<String> H_SPEED_LIST;
+
+    public String H_THROTTLE_POSITION = "";
+    public DatabaseReference H_THROTTLE_POSITIONRef;
+    public ArrayList<String> H_THROTTLE_POSITION_LIST;
+
+
 
     public ArrayList<String> L_DTCS_arraylist = new ArrayList<>();
 
@@ -184,7 +216,7 @@ public class FirebaseManager {
                     directUserLDTCs(currentSignedUserName);
                     setUserSettings(currentSignedUserName);
                     setUserResetDTC(currentSignedUserName);
-
+                    directUserHistory(currentSignedUserName);
                     return true;
                 }
             } catch (Exception e) {
@@ -257,7 +289,114 @@ public class FirebaseManager {
         });
     }
 
-    public void directUserLReadings(String username){
+    public void directUserHistory(String username){
+        HISTORYRef = databaseReference.child("HISTORY").child(username);
+        HISTORYRef.keepSynced(true);
+
+        H_COOLANT_TEMPERATURERef = HISTORYRef.child("H_COOLANT_TEMPERATURE");
+        H_COOLANT_TEMPERATURERef.keepSynced(true);
+        H_COOLANT_TEMPERATURERef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                H_COOLANT_TEMPERATURE = dataSnapshot.getValue(String.class);
+                Type type = new TypeToken<ArrayList<String>>(){}.getType();
+                H_COOLANT_TEMPERATURE_LIST = new Gson().fromJson(H_COOLANT_TEMPERATURE, type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        H_ENGINE_LOADRef = HISTORYRef.child("H_ENGINE_LOAD");
+        H_ENGINE_LOADRef.keepSynced(true);
+        H_ENGINE_LOADRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                H_ENGINE_LOAD = dataSnapshot.getValue(String.class);
+                Type type = new TypeToken<ArrayList<String>>(){}.getType();
+                H_ENGINE_LOAD_LIST = new Gson().fromJson(H_ENGINE_LOAD, type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        H_INTAKE_PRESSURERef = HISTORYRef.child("H_INTAKE_PRESSURE");
+        H_INTAKE_PRESSURERef.keepSynced(true);
+        H_INTAKE_PRESSURERef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                H_INTAKE_PRESSURE = dataSnapshot.getValue(String.class);
+                Type type = new TypeToken<ArrayList<String>>(){}.getType();
+                H_INTAKE_PRESSURE_LIST = new Gson().fromJson(H_INTAKE_PRESSURE, type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        H_RPMRef = HISTORYRef.child("H_RPM");
+        H_RPMRef.keepSynced(true);
+        H_RPMRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                H_RPM = dataSnapshot.getValue(String.class);
+                Type type = new TypeToken<ArrayList<String>>(){}.getType();
+                H_RPM_LIST = new Gson().fromJson(H_RPM, type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        H_SPEEDRef = HISTORYRef.child("H_SPEED");
+        H_SPEEDRef.keepSynced(true);
+        H_SPEEDRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                H_SPEED = dataSnapshot.getValue(String.class);
+                Type type = new TypeToken<ArrayList<String>>(){}.getType();
+                H_SPEED_LIST = new Gson().fromJson(H_SPEED, type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        H_THROTTLE_POSITIONRef = HISTORYRef.child("H_THROTTLE_POSITION");
+        H_THROTTLE_POSITIONRef.keepSynced(true);
+        H_THROTTLE_POSITIONRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                H_THROTTLE_POSITION = dataSnapshot.getValue(String.class);
+                Type type = new TypeToken<ArrayList<String>>(){}.getType();
+                H_THROTTLE_POSITION_LIST = new Gson().fromJson(H_THROTTLE_POSITION, type);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+        public void directUserLReadings(String username){
         L_ReadingsRef = databaseReference.child("L_READINGS").child(username);
         L_ReadingsRef.keepSynced(true);
 
