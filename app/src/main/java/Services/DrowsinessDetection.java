@@ -62,14 +62,8 @@ public class DrowsinessDetection {
 
 
                                         for (FirebaseVisionFace face : faces) {
-                                            Rect bounds = face.getBoundingBox();
-                                            float rotY = face.getHeadEulerAngleY();  // Head is rotated to the right rotY degrees
-                                            float rotZ = face.getHeadEulerAngleZ();  // Head is tilted sideways rotZ degrees
 
-                                            // If landmark detection was enabled (mouth, ears, eyes, cheeks, and
-                                            // nose available):
-//                                            System.out.println(face.getRightEyeOpenProbability());
-//                                            System.out.println(face.getSmilingProbability());
+
 
                                             boolean leftOpened = true;
                                             boolean rightOpened = true;
@@ -77,7 +71,7 @@ public class DrowsinessDetection {
                                             boolean detectedLeftEye = false;
                                             boolean detectedRightEye = false;
 
-                                            // If classification was enabled:
+
                                             if (face.getRightEyeOpenProbability() != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                                                 float rightEyeOpenProb = face.getRightEyeOpenProbability();
                                                 System.out.println(rightEyeOpenProb);

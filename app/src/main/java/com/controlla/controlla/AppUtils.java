@@ -178,10 +178,6 @@ public class AppUtils {
                 String latitude = String.valueOf(location.getLatitude());
 
                 RequestParams requestParams = new RequestParams();
-                System.out.println(longitude);
-                System.out.println(longitude);
-                System.out.println(latitude);
-                System.out.println(latitude);
                 requestParams.put("lat", latitude);
                 requestParams.put("lon", longitude);
                 requestParams.put("appid", API_KEY);
@@ -265,6 +261,7 @@ public class AppUtils {
     }
 
     public static void redirectToGoogleMaps(String Dest, Context context) {
+
         GoogleMaps GM = new GoogleMaps(context);
         String Origin = GM.GetCurrentAddress();
         System.out.println(Origin);

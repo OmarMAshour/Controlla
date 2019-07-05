@@ -137,25 +137,15 @@ public class Main2Activity extends AppCompatActivity {
             return;
         }
 
-//        new Thread() {
-//            public void run() {
-//
-//                AppUtils.sendNotification(Main2Activity.this, "Coolant Temperature Problem",
-//                        "Your coolant temperature is 150 degree celsius which is not with in the normal boundaries ... go and check it ASAP!");
-//                while(true){
+
                     String L_COOLANT_TEMP = firebaseManager.L_COOLANT_TEMP;
                     String L_ENGINE_LOAD = firebaseManager.L_ENGINE_LOAD;
-                    String L_FUEL_INJECT_TIMING = firebaseManager.L_FUEL_INJECT_TIMING;
                     String L_FUEL_LEVEL = firebaseManager.L_FUEL_LEVEL;
                     String L_FUEL_PRESSURE = firebaseManager.L_FUEL_PRESSURE;
-                    String L_FUEL_RATE = firebaseManager.L_FUEL_RATE;
-                    String L_FUEL_TYPE = firebaseManager.L_FUEL_TYPE;
                     String L_MAF = firebaseManager.L_MAF;
                     String L_OIL_TEMP = firebaseManager.L_OIL_TEMP;
                     String L_RPM = firebaseManager.L_RPM;
                     String L_SPEED = firebaseManager.L_SPEED;
-                    String L_THROTTLE_POS = firebaseManager.L_THROTTLE_POS;
-                    String L_TIMING_ADVANCE = firebaseManager.L_TIMING_ADVANCE;
                     String L_INTAKE_PRESSURE = firebaseManager.L_INTAKE_PRESSURE;
 
                     if(!L_COOLANT_TEMP.equals("NA") && !L_COOLANT_TEMP.equals("")){
@@ -164,7 +154,8 @@ public class Main2Activity extends AppCompatActivity {
 
                         double value = Double.parseDouble(values[0]);
 
-                        if (value>104.4 || value<90.5){
+//                        if (value>104.4 || value<90.5){
+                            if (value>104.4){
 
 
                             AppUtils.sendNotification(Main2Activity.this, "Coolant Temperature Problem",
@@ -304,8 +295,7 @@ public class Main2Activity extends AppCompatActivity {
                 }
 
 
-//            }
-//        }.start();
+
     }
 
 
