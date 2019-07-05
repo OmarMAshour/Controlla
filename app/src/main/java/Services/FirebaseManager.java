@@ -128,6 +128,20 @@ public class FirebaseManager {
 
     public DatabaseReference SOS_EMAILRef;
     public String SOS_Email = "";
+
+    public DatabaseReference C_SEATBELT_Ref;
+    public String C_SEATBELT = "";
+
+    public DatabaseReference C_DROWSINESS_REF;
+    public String C_DROWSINESS = "";
+
+    public DatabaseReference C_ECO_Ref;
+    public String C_ECO = "";
+
+    public DatabaseReference C_BACKGROUND_Ref;
+    public String C_BACKGROUND = "";
+
+
     private static final  int MY_PERMISSIONS_REQUEST_ACCES_COARSE_LOCATION = 1;
 
 
@@ -261,14 +275,69 @@ public class FirebaseManager {
 
             }
         });
+
+
+        C_BACKGROUND_Ref = SETTINGSRef.child("C_BACKGROUND");
+        C_BACKGROUND_Ref.keepSynced(true);
+        C_BACKGROUND_Ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                C_BACKGROUND = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        C_DROWSINESS_REF = SETTINGSRef.child("C_DROWSINESS");
+        C_DROWSINESS_REF.keepSynced(true);
+        C_DROWSINESS_REF.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                C_DROWSINESS = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        C_ECO_Ref = SETTINGSRef.child("C_ECO");
+        C_ECO_Ref.keepSynced(true);
+        C_ECO_Ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                C_ECO = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        C_SEATBELT_Ref = SETTINGSRef.child("C_SEATBELT");
+        C_SEATBELT_Ref.keepSynced(true);
+        C_SEATBELT_Ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                C_SEATBELT = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public String getSOS_Email() {
-
-
-
-
-
         return SOS_Email;
     }
 

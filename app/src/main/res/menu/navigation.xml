@@ -21,9 +21,9 @@
         android:title="History"
         />
     <item
-        android:id="@+id/navigation_Logout"
-        android:icon="@drawable/ic_exit"
-        android:title="Logout"
+        android:id="@+id/navigation_features"
+        android:icon="@drawable/ic_settings"
+        android:title="Features Control"
         />
 
 
