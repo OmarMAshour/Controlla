@@ -185,6 +185,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             @Override
             public void run() {
                 try{
+
                     setEcoData();
                 }catch (Exception ex){
                     System.out.println(ex.getStackTrace());
@@ -213,6 +214,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     }
 
     private void setEcoData(){
+        if(firebaseManager.C_ECO.equals("F")){
+            return;
+        }
         if(!firebaseManager.L_RPM.equals("NA") && !firebaseManager.L_RPM.equals("")){
             String rpmStr = firebaseManager.L_RPM.split(" ")[0];
             double rpm = Double.parseDouble(rpmStr);
@@ -833,6 +837,9 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
+            if(firebaseManager.C_DROWSINESS.equals("F")){
+                return;
+            }
             getPicture();
         }
     };

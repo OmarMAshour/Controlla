@@ -44,6 +44,7 @@ public class Main2Activity extends AppCompatActivity {
         final Fragment frag3=new DTCfrag();
 //        final Fragment frag4=new capturingFrag();
         final Fragment frag4=new historyFrag();
+        final Fragment frag5=new controlFrag();
 
         fragment = frag1;
         fragmentManager.beginTransaction() .replace(R.id.framelayout, fragment).commit();
@@ -66,13 +67,8 @@ public class Main2Activity extends AppCompatActivity {
                 case R.id.navigation_history:
                     fragment=frag4;
                     break;
-                case R.id.navigation_Logout:
-                    firebaseManager.currentSignedEmail="";
-                    firebaseManager.currentSignedUserName="";
-                    Intent intent = new Intent(Main2Activity.this, MainActivity.class);
-                    startActivity(intent);
-                    Main2Activity.this.finish();
-
+                case R.id.navigation_features:
+                    fragment=frag5;
                     break;
             }
 
@@ -81,6 +77,7 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
         navigation.setSelectedItemId(R.id.container);
+
 
 
 
@@ -136,6 +133,9 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     private void BackgroundOBDCheck(){
+        if(firebaseManager.C_BACKGROUND.equals("F")){
+            return;
+        }
 
 //        new Thread() {
 //            public void run() {
