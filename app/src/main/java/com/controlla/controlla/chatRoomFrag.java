@@ -3,7 +3,6 @@ package com.controlla.controlla;
 import android.Manifest;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +20,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -43,14 +41,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,9 +64,7 @@ import java.util.TimerTask;
 
 import Data.Weather;
 import Services.DrowsinessDetection;
-import Services.GPSTracker;
 import Services.GoogleCalendar;
-import Services.GoogleMaps;
 import ai.api.AIListener;
 import ai.api.android.AIConfiguration;
 import ai.api.android.AIService;
@@ -102,8 +95,10 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
     String toConvert="";
     String myResponse="";
     JSONObject Json ;
-    private ProgressBar ecoProgressBar;
-    private TextView ecoTextView;
+    private ProgressBar ecoCurrentProgressBar;
+    private TextView ecoCurrentTextView;
+    private ProgressBar ecoAverageProgressBar;
+    private TextView ecoAverageTextView;
     private Timer ecoTimer;
     //    AIConfiguration config ;
     private ContextWrapper cw;
@@ -176,9 +171,11 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         }, 0, 1000);
 
 
-        ecoProgressBar = view.findViewById(R.id.eco_progress_bar);
-        ecoTextView = view.findViewById(R.id.eco_value_txt);
+        ecoCurrentProgressBar = view.findViewById(R.id.eco_current_progress_bar);
+        ecoCurrentTextView = view.findViewById(R.id.eco_current_value_txt);
 
+        ecoAverageProgressBar = view.findViewById(R.id.eco_average_progress_bar);
+        ecoAverageTextView = view.findViewById(R.id.eco_average_value_txt);
         ecoTimer = new Timer();
 
         ecoTimer.schedule(new TimerTask() {
@@ -220,21 +217,44 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         if(!firebaseManager.L_RPM.equals("NA") && !firebaseManager.L_RPM.equals("")){
             String rpmStr = firebaseManager.L_RPM.split(" ")[0];
             double rpm = Double.parseDouble(rpmStr);
-            rpm -=2000;
+            rpm -=1000;
             if(rpm<=0){
-                ecoProgressBar.setProgress(100);
-                ecoTextView.setText("Eco Percentage: 100%");
-            }else if (rpm>=5000){
-                ecoProgressBar.setProgress(0);
-                ecoTextView.setText("Eco Percentage: 0%");
+                ecoCurrentProgressBar.setProgress(100);
+                ecoCurrentTextView.setText("100%");
+            }else if (rpm>=6000){
+                ecoCurrentProgressBar.setProgress(0);
+                ecoCurrentTextView.setText("0%");
 
             }else{
-                double value = 100 - ((rpm/5000)*100);
+                double value = 100 - ((rpm/6000)*100);
                 int progressValue = (int) value;
-                ecoProgressBar.setProgress(progressValue);
-                ecoTextView.setText(progressValue+"%");
+                ecoCurrentProgressBar.setProgress(progressValue);
+                ecoCurrentTextView.setText(progressValue+"%");
             }
         }
+
+        List<String> historyList = firebaseManager.H_RPM_LIST;
+        historyList = historyList.subList(1, historyList.size());
+        double total_value = 0;
+        for(int i =0;i<historyList.size();i++){
+            total_value+=Double.parseDouble(historyList.get(i).split(" ")[0]);
+        }
+        double value = total_value/(double)historyList.size();
+        value -=1000;
+        if(value<=0){
+            ecoAverageProgressBar.setProgress(100);
+            ecoAverageTextView.setText("100%");
+        }else if (value>=6000){
+            ecoAverageProgressBar.setProgress(0);
+            ecoAverageTextView.setText("0%");
+
+        }else{
+            double result = 100 - ((value/6000)*100);
+            int progressValue = (int) result;
+            ecoAverageProgressBar.setProgress(progressValue);
+            ecoAverageTextView.setText(progressValue+"%");
+        }
+
     }
 
     private void resetDTCDone(){
@@ -248,6 +268,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
             firebaseManager.Reset_DTCRef.setValue(firebaseManager.Reset_DTC);
         }
     }
+
     public void onMessageClick(final int position) {
 //        messages.remove(position);
 //        adapter.notifyItemRemoved(position);
@@ -426,7 +447,7 @@ public class chatRoomFrag extends Fragment implements AIListener, View.OnClickLi
         }
 
 
-        if (respond.contains("Getting you")) {
+        if (respond.contains("Getting you") && !respond.contains("weather")) {
             String value = getCorrespondingOBDValue(respond);
             if(value.equals("NA")){
                 value = "Your vehicle is not connected";

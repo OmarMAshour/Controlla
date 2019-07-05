@@ -51,7 +51,7 @@ import me.everything.providers.android.calendar.CalendarProvider;
 public class MainActivity extends AppCompatActivity {
     private Button b1;
     private EditText email, ps;
-    private CheckBox cb;
+//    private CheckBox cb;
     public static final FirebaseManager firebaseManager = new FirebaseManager();
     public static Weather currentWeather = null;
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         b1 = (Button) findViewById(R.id.login);
         email = (EditText) findViewById(R.id.email);
         ps = (EditText) findViewById(R.id.password);
-        cb = (CheckBox) findViewById(R.id.checkBox);
+//        cb = (CheckBox) findViewById(R.id.checkBox);
 
       /*  try {
       /*  try
@@ -112,23 +112,23 @@ public class MainActivity extends AppCompatActivity {
                 // Start NewActivity.class
 //                AppUtils.getCurrentLocationWeather(MainActivity.this);
                 if (firebaseManager.authUser(email.getText().toString().trim(), ps.getText().toString())) {
-                    if (cb.isChecked()) {
-                        String serial = Build.SERIAL;
-                        if (serial.equals("unknown")) {
-                            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: @ASHOUR don't forget to request permission ... Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
-                                return;
-                            }
-                            serial = Build.getSerial();
-                        }
-                        firebaseManager.addKeepSignedUser(email.getText().toString().trim(), serial);
-                    }
+//                    if (cb.isChecked()) {
+//                        String serial = Build.SERIAL;
+//                        if (serial.equals("unknown")) {
+//                            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+//                                // TODO: @ASHOUR don't forget to request permission ... Consider calling
+//                                //    ActivityCompat#requestPermissions
+//                                // here to request the missing permissions, and then overriding
+//                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                //                                          int[] grantResults)
+//                                // to handle the case where the user grants the permission. See the documentation
+//                                // for ActivityCompat#requestPermissions for more details.
+//                                return;
+//                            }
+//                            serial = Build.getSerial();
+//                        }
+//                        firebaseManager.addKeepSignedUser(email.getText().toString().trim(), serial);
+//                    }
                     firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_ENGINE_LOAD").setValue("NA");
                     firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_COOLANT_TEMP").setValue("NA");
                     firebaseManager.databaseReference.child("L_READINGS").child(firebaseManager.currentSignedUserName).child("L_FUEL_PRESSURE").setValue("NA");
